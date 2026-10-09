@@ -1,0 +1,143 @@
+{
+  "id": "forecast-ddce9b7d-ba4a-4703-a977-45116623d438",
+  "state": "succeeded",
+  "road_id": "nyc-demo-corridor",
+  "issued_at": "2026-10-09T15:00:00Z",
+  "mode": "illustrative",
+  "data_origin": "synthetic",
+  "execution_mode": "mock",
+  "horizons": [
+    {
+      "minutes": 5,
+      "speed_kph": 31.4,
+      "travel_time_sec": 86.0,
+      "lower_kph": 28.19,
+      "upper_kph": 34.61,
+      "interval_method": "validation_absolute_residual_90pct"
+    },
+    {
+      "minutes": 15,
+      "speed_kph": 31.95,
+      "travel_time_sec": 84.5,
+      "lower_kph": 28.75,
+      "upper_kph": 35.16,
+      "interval_method": "validation_absolute_residual_90pct"
+    },
+    {
+      "minutes": 30,
+      "speed_kph": 33.13,
+      "travel_time_sec": 81.5,
+      "lower_kph": 29.93,
+      "upper_kph": 36.34,
+      "interval_method": "validation_absolute_residual_90pct"
+    }
+  ],
+  "evaluation": {
+    "status": "evaluated",
+    "sample_count": 8064,
+    "split": "chronological_60_20_20",
+    "train_window": {
+      "start": "2026-09-11T15:05:00Z",
+      "end": "2026-09-28T10:10:00Z",
+      "samples": 4838
+    },
+    "validation_window": {
+      "start": "2026-09-28T10:15:00Z",
+      "end": "2026-10-04T00:35:00Z",
+      "samples": 1613
+    },
+    "test_window": {
+      "start": "2026-10-04T00:40:00Z",
+      "end": "2026-10-09T15:00:00Z",
+      "samples": 1613
+    },
+    "by_horizon": [
+      {
+        "minutes": 5,
+        "test_samples": 1612,
+        "persistence": {
+          "mae_kph": 1.131,
+          "interval_radius_kph": 1.837,
+          "test_interval_coverage": 0.911,
+          "validation_samples": 1612
+        },
+        "historical": {
+          "mae_kph": 1.977,
+          "interval_radius_kph": 3.206,
+          "test_interval_coverage": 0.784,
+          "validation_samples": 1612
+        }
+      },
+      {
+        "minutes": 15,
+        "test_samples": 1610,
+        "persistence": {
+          "mae_kph": 2.173,
+          "interval_radius_kph": 3.977,
+          "test_interval_coverage": 0.915,
+          "validation_samples": 1610
+        },
+        "historical": {
+          "mae_kph": 1.978,
+          "interval_radius_kph": 3.206,
+          "test_interval_coverage": 0.784,
+          "validation_samples": 1610
+        }
+      },
+      {
+        "minutes": 30,
+        "test_samples": 1607,
+        "persistence": {
+          "mae_kph": 1.716,
+          "interval_radius_kph": 4.439,
+          "test_interval_coverage": 0.905,
+          "validation_samples": 1607
+        },
+        "historical": {
+          "mae_kph": 1.978,
+          "interval_radius_kph": 3.207,
+          "test_interval_coverage": 0.783,
+          "validation_samples": 1607
+        }
+      }
+    ],
+    "notes": [
+      "Historical time-of-week means fit using training observations only.",
+      "Unseen time-of-week slots fall back to training mean.",
+      "90% nominal absolute-residual bands use validation residuals only; test coverage is measured separately.",
+      "No temporal regression is fit; sufficient representative live history is not established."
+    ],
+    "data_origin": "synthetic",
+    "scope": "synthetic_only"
+  },
+  "model_version": "pharos-baselines-1",
+  "features": [
+    "last_measured_speed_kph",
+    "historical_utc_weekday_hour_5min_slot"
+  ],
+  "input_window": {
+    "start": "2026-09-11T15:05:00Z",
+    "end": "2026-10-09T15:00:00Z",
+    "samples": 8064
+  },
+  "assumptions": [
+    "All traffic history and predictions are synthetic numerical examples.",
+    "A four-week illustrative UTC time-of-week pattern is unrelated to archive footage or measured NYC traffic.",
+    "Historical means are a baseline; this is not a trained or validated real-world traffic model.",
+    "Travel time is road length divided by predicted mean speed; zero speed gives unavailable finite travel time.",
+    "Uncertainty bands are empirical baseline errors, not calibrated physical or collision uncertainty."
+  ],
+  "provenance": {
+    "source_url": "pharos://fixtures/traffic-history-v1",
+    "captured_at": "2026-10-09T15:00:00Z",
+    "processed_at": "2026-10-09T15:00:00Z",
+    "data_origin": "synthetic",
+    "execution_mode": "mock",
+    "freshness": "fresh",
+    "notes": [
+      "All traffic history and predictions are synthetic numerical examples.",
+      "A four-week illustrative UTC time-of-week pattern is unrelated to archive footage or measured NYC traffic.",
+      "Historical means are a baseline; this is not a trained or validated real-world traffic model."
+    ]
+  }
+}
