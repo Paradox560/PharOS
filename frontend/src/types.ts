@@ -44,6 +44,7 @@ export interface MediaAsset {
   provenance: Provenance;
 }
 export interface EvidenceSpan {
+  reasoning_model?: string;
   id: string;
   asset_id: string;
   source_uri: string | null;
@@ -145,6 +146,7 @@ export interface Overview {
   notes: string[];
 }
 export interface EvidenceBundle {
+  reasoning_models?: string[];
   asset: MediaAsset;
   evidence: EvidenceSpan[];
   detections: Detection[];

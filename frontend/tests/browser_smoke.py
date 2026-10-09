@@ -35,7 +35,11 @@ async def main():
         await page.screenshot(path=str(output / 'tablet-forecast.png'))
         assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth'), 'Tablet document overflows'
         assert not errors, errors
-        print('Mobile + tablet layout, evidence seek/box, illustrative forecast, connection dialog: passed.')
-        await browser.close()
+        print('Mobile + tablet layout, evidence seek/box, illustrative forecast, connection dialog: passed.', flush=True)
+        await page.close()
+        try:
+            await asyncio.wait_for(browser.close(), timeout=10)
+        except TimeoutError:
+            print('Browser driver shutdown timed out after all UI assertions passed.', flush=True)
 
 asyncio.run(main())

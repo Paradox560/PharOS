@@ -76,6 +76,10 @@ export default function EvidencePanel({
     seekTo(seek.seconds);
   }, [seek.key, bundle?.asset.id]);
   const detections = boxesAtTime(bundle?.detections || [], time);
+  const reasoningModels = [...new Set([
+    ...(bundle?.reasoning_models || []),
+    ...(bundle?.evidence.flatMap((span) => span.reasoning_model ? [span.reasoning_model] : []) || []),
+  ])];
   if (loading) return <Loading />;
   if (error && !camera) return <ErrorMessage error={error} />;
   if (camera)
@@ -426,6 +430,7 @@ export default function EvidencePanel({
         <h3>
           <Sparkles size={15} /> Cosmos reasoning
         </h3>
+        {reasoningModels.length > 0 && <p className="caption">Stored model: {reasoningModels.join(" · ")}</p>}
         {bundle.reasoning ? (
           <p className="reasoning">{bundle.reasoning}</p>
         ) : (
