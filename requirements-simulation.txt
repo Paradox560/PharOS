@@ -1,0 +1,7 @@
+-r requirements.txt
+eclipse-sumo==1.27.1
+sumo-data==1.27.1
+traci==1.27.1
+sumolib==1.27.1
+# Needed only when rebuilding the versioned OSM network / roads.json.
+pyproj==3.7.2
