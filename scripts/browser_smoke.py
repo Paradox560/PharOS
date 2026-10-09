@@ -19,7 +19,7 @@ def main():
         page = browser.new_page(viewport={'width':1600,'height':1060}, device_scale_factor=1)
         page.on('pageerror', lambda error: errors.append(str(error)))
         page.goto(args.url, wait_until='networkidle')
-        expect(page.get_by_text('DETERMINISTIC DEMO', exact=True)).to_be_visible()
+        expect(page.get_by_text('DEMO', exact=True)).to_be_visible()
         expect(page.locator('.maplibregl-canvas')).to_be_visible()
         page.screenshot(path=str(output/'01-console.png'), full_page=True)
         page.locator('.evidence-spans button').first.click()
