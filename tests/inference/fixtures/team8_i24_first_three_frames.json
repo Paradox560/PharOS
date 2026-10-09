@@ -1,0 +1,444 @@
+{
+  "provenance": {
+    "verified_at": "2026-10-09T16:40:59.923721Z",
+    "source": "Read-only Team 8 application-adapter probe",
+    "camera_id": "i24_cam-1",
+    "location": "nashville",
+    "parent_start_sec": 25,
+    "segment_basename": "20261001_055340_scene1_p1c1_chunk_0002_segment_006_of_006.mp4",
+    "stored_reasoning_model": "nvidia/cosmos3-nano-reasoner",
+    "perception_source": "yolo11_coco",
+    "sample_note": "Only the first three complete detector frames are retained. Wrapper counts describe the full 150-frame sidecar. No media, credentials, tokens, or provider URLs are included. This is stored inference output; no fresh GPU run was requested."
+  },
+  "sidecar": {
+    "fps": 30,
+    "video_shape": [
+      1080,
+      1920
+    ],
+    "frame_count": 150,
+    "detection_count": 2138,
+    "frames": [
+      {
+        "frame_index": 0,
+        "time_sec": 0,
+        "shape": [
+          1080,
+          1920
+        ],
+        "detections": [
+          {
+            "label": "car",
+            "confidence": 0.7349,
+            "bbox": [
+              1364,
+              797,
+              1455,
+              865
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.6779,
+            "bbox": [
+              1382,
+              596,
+              1685,
+              838
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.6653,
+            "bbox": [
+              829,
+              819,
+              923,
+              909
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.648,
+            "bbox": [
+              449,
+              322,
+              489,
+              363
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5934,
+            "bbox": [
+              690,
+              201,
+              725,
+              225
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5648,
+            "bbox": [
+              745,
+              457,
+              797,
+              511
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5282,
+            "bbox": [
+              538,
+              243,
+              577,
+              272
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5248,
+            "bbox": [
+              505,
+              291,
+              543,
+              321
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4611,
+            "bbox": [
+              668,
+              367,
+              703,
+              405
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4301,
+            "bbox": [
+              689,
+              523,
+              747,
+              584
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4053,
+            "bbox": [
+              623,
+              412,
+              682,
+              457
+            ]
+          }
+        ]
+      },
+      {
+        "frame_index": 1,
+        "time_sec": 0.0333,
+        "shape": [
+          1080,
+          1920
+        ],
+        "detections": [
+          {
+            "label": "car",
+            "confidence": 0.6457,
+            "bbox": [
+              505,
+              293,
+              542,
+              323
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.6298,
+            "bbox": [
+              1351,
+              786,
+              1445,
+              852
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.6133,
+            "bbox": [
+              449,
+              324,
+              488,
+              365
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.6079,
+            "bbox": [
+              1106,
+              640,
+              1177,
+              700
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5731,
+            "bbox": [
+              685,
+              200,
+              724,
+              223
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5725,
+            "bbox": [
+              834,
+              826,
+              938,
+              923
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5616,
+            "bbox": [
+              538,
+              243,
+              578,
+              274
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5614,
+            "bbox": [
+              745,
+              467,
+              798,
+              516
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5495,
+            "bbox": [
+              691,
+              532,
+              750,
+              588
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.5067,
+            "bbox": [
+              912,
+              277,
+              1022,
+              391
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.465,
+            "bbox": [
+              1034,
+              432,
+              1097,
+              478
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.4531,
+            "bbox": [
+              1374,
+              588,
+              1673,
+              829
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4331,
+            "bbox": [
+              669,
+              370,
+              707,
+              408
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4274,
+            "bbox": [
+              626,
+              416,
+              683,
+              463
+            ]
+          }
+        ]
+      },
+      {
+        "frame_index": 2,
+        "time_sec": 0.0667,
+        "shape": [
+          1080,
+          1920
+        ],
+        "detections": [
+          {
+            "label": "car",
+            "confidence": 0.6946,
+            "bbox": [
+              838,
+              838,
+              936,
+              930
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.6936,
+            "bbox": [
+              1341,
+              775,
+              1433,
+              841
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5816,
+            "bbox": [
+              694,
+              536,
+              758,
+              597
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5473,
+            "bbox": [
+              746,
+              470,
+              807,
+              522
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5446,
+            "bbox": [
+              506,
+              295,
+              546,
+              326
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5325,
+            "bbox": [
+              451,
+              327,
+              490,
+              367
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5059,
+            "bbox": [
+              686,
+              198,
+              720,
+              223
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.5019,
+            "bbox": [
+              908,
+              275,
+              1017,
+              386
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.4861,
+            "bbox": [
+              1364,
+              583,
+              1661,
+              821
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.474,
+            "bbox": [
+              539,
+              242,
+              579,
+              275
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4661,
+            "bbox": [
+              1099,
+              636,
+              1175,
+              696
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.4557,
+            "bbox": [
+              512,
+              540,
+              594,
+              678
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4464,
+            "bbox": [
+              671,
+              373,
+              712,
+              411
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4364,
+            "bbox": [
+              628,
+              419,
+              684,
+              463
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
