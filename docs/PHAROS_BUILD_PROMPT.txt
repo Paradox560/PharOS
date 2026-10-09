@@ -1,0 +1,339 @@
+PHAROS — COMPREHENSIVE IMPLEMENTATION PROMPT
+
+Act as the implementation lead for PharOS. Build and test the application described below, using parallel subagents with explicit ownership. This is an implementation request: produce a working repository, a reviewable development demo, and a workshop-compatible deployment. The challenge deliverable runs in the assigned team's cluster at /app once access and deployment authorization are available. Continue through integration and verification rather than stopping after scaffolding or a plan.
+
+1. PROJECT CONTEXT AND FIXED PRODUCT DECISIONS
+
+Repository: https://github.com/Paradox560/PharOS.git
+Existing local checkout: /Users/pranavpalle/Documents/ChatGPT/Hackathons/PharOS
+Architectural inspiration: https://github.com/NevineAKF/OlympusOS
+Hackathon resources: https://tokensand.com/vastnyc
+Authoritative challenge stack: https://github.com/vast-data/vast-builders-challenge
+NYC cameras: https://webcams.nyctmc.org/cameras-list
+
+The repository was cloned while empty. Initial planning created docs/BUILD_CONTRACT.md and an incomplete local virtual environment. Inspect the current checkout, git status, and applicable AGENTS.md instructions before making changes. Preserve any newer user work. This prompt supersedes conflicting early assumptions in BUILD_CONTRACT.md. Do not assume any application code, dependencies, or live integrations are already complete.
+
+PharOS is an intelligence console for everyday city road operations and infrastructure, with an NYC context view and analysis centered on the cameras and footage actually available. Its first complete workflow is road obstruction and traffic disruption. Its outputs are evidence, natural-language footage search, traffic forecasts, what-if simulations, and recommendations for an operator to review.
+
+Keep the hackathon scope centered on this workflow. Weather, roadworks, and 311 reports enrich traffic context. Broader city infrastructure workflows can share the architecture later.
+
+Use OlympusOS as an architectural reference for specialized agents. Inspect its implementation and license; retain required notices if reusing code. Build around actual source evidence instead of treating its event simulations as live observations.
+
+The final demonstration must show this sequence:
+
+Select an available traffic clip at its verified source location -> inspect a possible obstruction -> review YOLO detections/tracks and Cosmos analysis -> search for related moments -> inspect a supported traffic forecast -> simulate earlier versus later clearance -> compare outcomes on a 3D map -> receive an evidence-linked operator recommendation. If NYC sensor forecasts are demonstrated alongside non-NYC footage, identify these as separate datasets/scenarios and never imply a causal connection between them.
+
+OFFICIAL CHALLENGE ARCHITECTURE — READ BEFORE BUILDING
+
+Read the challenge repository's README.md, ARCHITECTURE_REFERENCE.md, config.example, and relevant .cursor/skills instructions before choosing interfaces. Those documents supersede generic NVIDIA VSS documentation for this deployed workshop stack.
+
+The organizers already run the models and VAST DataEngine pipeline. Each team shares an existing archive, index, service credentials, and ingestion instance. The normal challenge operation is to query existing material and selectively re-ingest already-indexed chunks with a better analysis prompt. The path exercised by re-ingestion is YOLO11 Detector -> Cosmos3-Reason Reasoner -> Cosmos Embed1 Embedder -> VastDB writer. Do not rebuild or redeploy this graph or its GPU models.
+
+The official guide expects integration and deployment work on the workshop VM, where environment variables are preconfigured. Local UI/fixture development is useful, but remote model endpoints and team services may only be reachable from the workshop environment. At most two people per team may launch workshop VMs; this does not require a separate VM for each coding subagent.
+
+Challenge media is already licensed and indexed. The architecture reference describes a re-ingestion-only challenge workflow even though a general upload skill exists. Default to re-ingestion, keep new internet-media ingestion disabled, and resolve any organizer-approved exception before enabling uploads. Do not import NYC snapshots or arbitrary downloaded video into the shared pipeline merely because a public URL works.
+
+The supplied corpus includes I-24/Nashville traffic, Toronto driving, neighborhood footage, and other scenes. Some San Francisco material is listed as pending ingestion; discover actual availability from the team's live index. There is no established NYC video corpus in these documents. Never relabel supplied footage as NYC or invent exact coordinates. Use an unlocated evidence list when only a broad location is known.
+
+2. REQUIRED TECHNOLOGIES AND THEIR FUNCTIONAL ROLES
+
+Every item below must participate in the implementation. Logos, configuration fields, unused adapters, and mocked responses do not establish that a live integration works.
+
+A. Browser automation
+Use browser automation to inspect public camera pages and discover source information. Implement an auditable browser ingestion/discovery adapter using available Browser Use or Playwright tooling. Capture rendered source metadata and relevant public network responses, with source URLs and timestamps. Prefer a documented API for routine collection after discovery. Do not make an LLM browse every frame. If the provided browser-control tool fails to start, report the limitation and test a local browser runner when available.
+
+B. YOLO
+Use YOLO11 results from the supplied pipeline and its detections-sidecar API. Expose available bounding boxes, classes, confidence, and timestamps. Inspect whether sidecars actually include frame sequences and stable track IDs. If they do not, implement a clearly separate application tracking layer over approved temporal detections/footage, using a suitable tracker only where inputs support it. Do not describe frame detections as tracking or archived processing as a live camera stream. Direct endpoint diagnostics use YOLO_URL and the official GPU skill. No replacement model deployment is required.
+
+C. NVIDIA Cosmos
+Use the deployed NVIDIA Cosmos3-Reason model through the existing pipeline. Tailor an ingestion prompt to observable road conditions, potential obstruction, vehicle motion, temporal evidence, and uncertainty. Retrieve the stored reasoning with segment metadata/search. A single snapshot must not support claims about motion over time. Direct diagnostics use COSMOS3_REASON_URL and the configured/discovered model ID; do not substitute a generic Reason2 API example for the actual workshop contract.
+
+D. Semantic video search
+Use the existing VSS hybrid search backed by Cosmos Embed1 text/visual embeddings and VastDB. Do not build a redundant local vector index for the challenge. Queries should support examples such as "stopped vehicles obstructing a lane" and "traffic slowing near this obstruction." Preserve asset IDs, parent/segment relationships, start/end times, source camera, and retrieval scores. Search quality depends on the indexed descriptions: inspect results, refine the analysis prompt when necessary, selectively re-ingest approved targets, and verify search again. Demo keyword matching must be labeled as a fallback and must not count as completed semantic search.
+
+E. Weights & Biases
+Use W&B-provided LLM inference for application agents and the final evidence-backed recommendation. Record provider/model execution and latency; use W&B/Weave observability or experiment tracking where access permits. Numerical traffic forecasts come from the forecasting model; LLM agents explain them and their assumptions.
+
+F. VAST AI OS
+Use the supplied VAST DataEngine re-ingestion pipeline, team S3 storage, and VastDB index through the documented VSS APIs. Inspect its flow, logs, and traces to establish actual execution. Keep the provided graph intact. Do not manually copy objects into ingestion buckets, overwrite index rows, or redeploy pipeline functions. Store PharOS-specific forecast/simulation artifacts in an approved separate bucket/prefix or local application storage until a suitable VAST destination is established; do not invent write access outside the assigned team.
+
+G. CoreWeave
+The supplied NVIDIA models already run on CoreWeave GPUs. Use and verify them through the workshop pipeline rather than deploying duplicate workers. Record pipeline/model identifiers, traces, and the documented hosting relationship. SUMO and PharOS API jobs can use CPU workers. NVIDIA Canary is available in the workshop but is outside the user's required scope; audio is optional and must not displace the road-operations workflow.
+
+2A. VERIFIED WORKSHOP API CONTRACT AND INITIAL PROOF
+
+Base URL: INGRESS_URL from the assigned team's environment. Read the matching .cursor/skills documents for full payloads and errors, and verify the live response schema. PharOS should provide server-side adapters for these upstream routes:
+- POST /api/v1/auth/login with username/password; cache the returned bearer JWT and refresh once on 401. GET /api/v1/auth/me verifies the session.
+- GET /api/v1/metadata/schema and /metadata/values?field=... to discover real filter fields and values. GET /api/v1/metadata/ingest-config supplies current analysis presets and ingestion options.
+- GET /api/v1/videos/explore with pagination to discover indexed parent chunks.
+- POST /api/v1/search for hybrid search, with query, top_k, time_filter, metadata_filters, tags, and optional synthesis parameters.
+- POST /api/v1/agent/ask or /agent/search-and-answer for upstream grounded Q&A; use W&B inference separately for PharOS operational synthesis.
+- GET /api/v1/videos/metadata and /videos/detections with a returned segment source URI.
+- GET /api/v1/videos/stream or /videos/playback-url for seekable evidence playback.
+- POST /api/v1/videos/synthesize for a parent-video report.
+- POST /api/v1/dashboard/reingest and GET /api/v1/dashboard/reingest/{job_id} for selected archive reprocessing.
+- GET /api/v1/dashboard/stats for index health/count verification.
+
+Search has both segment results and chunk_results with parent videos and best-match time ranges. Preserve this distinction. Discover metadata fields instead of inventing /tags or /locations endpoints. Use returned S3 source/original_video values, not constructed or guessed media paths. A missing detections sidecar is an explicit unavailable state.
+
+The upstream playback endpoints may require JWT query parameters. Prefer a PharOS same-origin media proxy or supported presigned URL so long-lived credentials are not exposed in browser history/logs; preserve HTTP Range behavior. Never print tokens.
+
+Perform this small vertical slice before building the full UI: authenticate -> inspect metadata and inventory -> search traffic footage -> play a matching span -> inspect detections and reasoning -> call W&B with that evidence. Then prepare a narrowly scoped re-ingestion request only if the captions miss the required traffic information.
+
+Re-ingestion modifies the shared team archive and must have one designated owner. Follow the official ingestion skill's concrete target/prompt/metadata/chunk-count confirmation requirements, honoring any choices already explicitly authorized in the session. Prepare the exact reviewable request first. Default to a small test chunk, not a broad archive refresh. Poll to completion and verify index consistency; job disappearance after a backend restart is not proof that processing stopped.
+
+Suggested custom traffic prompt (validate the live length limit, currently 800 characters):
+Describe observable traffic flow and possible road obstructions. Note vehicles that appear stopped, blocked lanes, queues, lane changes, pedestrians near moving vehicles, and visible roadwork or debris. Cite relevant moments within the clip and distinguish observations from uncertainty. Do not infer causes, identities, precise speeds, collision probabilities, or conditions outside the frame. State when camera motion, visibility, or clip length prevents a conclusion.
+
+Preserve actual camera and location metadata when re-ingesting. Do not alter corpus geography to match the intended NYC product narrative.
+
+3. GEOGRAPHY, SOURCE ACCESS, AND DATA QUALITY
+
+Provide an NYC context view with verified public camera locations, plus an archive view centered on the actual available footage. Automatically fit the map to verified selected coverage. Choose one connected corridor for forecasting and simulation after verifying usable road geometry and fresh traffic sensors. Include nearby streets needed to model queues and detours. If the demonstration uses a separate synthetic corridor or NYC sensor dataset, make that separation explicit and avoid joining it to unrelated archive events.
+
+The NYC camera site exposes refreshed snapshots; continuous video availability has not been established. Model source capability explicitly: public snapshot, indexed archive, separately approved uploaded video, or approved stream. Use the challenge's licensed archive for the core video demonstration. Public browsing/context integration is separate from permission to ingest media into the challenge pipeline. Record snapshot capture intervals and do not manufacture continuous trajectories from sparse images.
+
+Initial research found the public catalog at https://webcams.nyctmc.org/cameras/graphql and snapshot routes shaped like /api/cameras/{uuid}/image. Verify the current public page and API contract before implementation. Use source-aware caching and rate limits; honor published refresh guidance. Do not assume public browser access grants ongoing developer-feed access.
+
+NYC DOT states that developers must sign a data-sharing agreement for camera-feed access. Contact listed by DOT: tmcdot@dot.nyc.gov. Surface this access requirement to the user, but do not send messages or obtain agreements on their behalf. A DOT agreement alone does not override the challenge's media-source rules. Continue with the supplied archive, public contextual datasets, and explicit demo data while access is unresolved.
+
+Additional context sources:
+- NYC DOT speed/travel-time feeds, including road-link geometry and source timestamps.
+- NYC 311 road/infrastructure complaints; verify the current dataset schema and update cadence. A complaint is a report, not a confirmed current incident.
+- National Weather Service alerts relevant to the NYC area.
+- OpenStreetMap road geometry for simulation, with appropriate attribution and validation of lane/intersection assumptions.
+
+Store source URLs, source/capture/processing timestamps, capability, freshness, provenance, and access notes. Keep media retention configurable. Make stale, missing, cached, demo, and live states visible. Missing observations must not appear as confirmed normal conditions.
+
+4. INTERACTIVE 3D MAP AND CONSOLE
+
+Make the 3D map the main workspace. Use Google Maps vector rendering with 3D buildings, tilt, heading, and deck.gl overlays when suitable Google access is available. Require the appropriate API key and vector map configuration. Use a restricted browser key for the intended origins. If Google access is unavailable, use MapLibre GL JS with OpenFreeMap or another suitable OpenStreetMap-derived vector tile source and extruded buildings.
+
+Keep map-provider-specific code behind a small adapter. Use shared GeoJSON/WGS84 application data so camera, incident, risk, forecast, and simulation layers work with either renderer. Verify current overlay compatibility. Google's legacy HeatmapLayer was removed in 2026; use a supported deck.gl/custom layer. Use an appropriate tile service rather than treating public OSM standard tiles as an unrestricted application backend.
+
+Required interactions:
+- Pan, zoom, rotate, tilt, reset bearing, and return to selected camera coverage.
+- Camera markers/clusters with availability and freshness.
+- Borough, corridor, and camera filters.
+- Selecting a camera opens genuine source media, timestamps, recent observations, and analysis controls.
+- Selecting an incident opens supporting footage, detection overlays, Cosmos explanation, related search results, and recommendation.
+- Toggle cameras, observed risk, forecasts, and simulation layers.
+- Time scrubber for evidence replay, forecast horizons, and scenario playback.
+- Side-by-side or synchronized baseline/scenario comparison.
+- Explicit connection/provider status, loading, error, empty, and stale states.
+- Accessible controls, responsive panels, readable legends, and a reduced-motion option.
+
+Visual direction: a polished dark city-operations console with restrained green/lime accents, clear typography, and strong evidence hierarchy. Every major control should work. Do not populate real-looking metrics from random values.
+
+Place observations at verified camera/road locations. Only project detected objects into world coordinates when camera calibration supports it. Treat illustrative camera coverage cones as estimates unless field-of-view data is known.
+
+5. DANGER / OPERATIONAL RISK HEATMAP
+
+Implement an explainable operational risk index for road disruption. Candidate inputs include obstruction evidence, persistence, observed slowdown relative to baseline, verified incident severity, corroborating sources, and observation freshness. Keep evidence strength and data coverage available independently from the score.
+
+Use road-segment coloring as the precise view and an optional aggregated heatmap for overview. Normalize aggregation so areas with more cameras are not automatically scored as more dangerous. Keep color thresholds stable across comparisons. Do not smear evidence into unsupported streets or across disconnected roads.
+
+Clicking a highlighted segment/cell must reveal contributing observations, timestamps, scoring factors, confidence/coverage, and links to footage. Distinguish observed and predicted layers. Unobserved areas stay gray; stale observations receive a stale treatment rather than becoming green.
+
+Call this a risk/priority index. Do not represent it as a calibrated accident probability without evidence supporting that interpretation. Include tests for freshness, deduplication, missing coverage, and score contributions.
+
+6. PREDICTIVE MODELING
+
+Forecast road-link speed and travel time for 5-, 15-, and 30-minute horizons where sufficient data exists. Start with a persistence baseline and a historical time-of-week baseline when history is available. Add a small temporal regression model using lagged speed, neighboring-link conditions, time features, and supported incident features when the dataset justifies it.
+
+Use chronological train/validation/test splits and avoid future-data leakage. Report performance against persistence separately by horizon, including MAE and available uncertainty/coverage measures. Do not claim improvement if measured results do not show it. Persist model version, feature definition, training window, evaluation results, and forecast issue time.
+
+The UI should expose predicted congestion/slowdown, uncertainty, input freshness, and the factors used. Distinguish measured traffic data from assumptions. If history is insufficient, ship the baseline, data collection, evaluation path, and an explicitly illustrative forecast mode. Do not invent training results or present synthetic predictions as validated live forecasts.
+
+Sparse snapshots alone are insufficient to establish accurate physical speed or continuous tracks. Use calibrated video or actual road sensors for metric traffic features.
+
+7. SIMULATION INFRASTRUCTURE
+
+Build an actual SUMO integration for the selected corridor using a versioned road network imported from OpenStreetMap. Validate connectivity, directions, lanes, speed limits, and intersections. Record assumed signal timing, turning ratios, and traffic demand. Label generated demand as synthetic until calibrated against observations.
+
+Support these scenarios:
+- Baseline traffic under the selected input conditions.
+- A lane blockage or reduced road capacity.
+- Earlier versus later obstruction clearance.
+- Adjustable traffic demand; optional rerouting when the network supports a meaningful comparison.
+
+Use a Python/TraCI worker behind asynchronous jobs. Each job needs an ID, state, progress, cancellation, bounded runtime, error reporting, and persisted outputs. Keep requests responsive while the simulation runs. Verify a feasible SUMO runtime and network-data mount within the team's deployment constraints before making the UI depend on the worker.
+
+Preserve immutable scenario inputs, network version, demand, random seeds, assumptions, and result metrics through VAST. Compare scenarios with the same initial demand and seeds, and use repeated seeds when evaluating sensitivity.
+
+Output travel time, waiting/delay, throughput, queue size, and affected roads where measurable. Include unfinished vehicles in the evaluation so blocked vehicles do not disappear from the reported results. Replay simulated vehicle/road states on the 3D map. Simulation vehicles and outcomes must always be identified as simulated.
+
+Validate baseline behavior against available observed speeds/flows where possible. Test deterministic replay, cancellation, invalid scenarios, and plausible changes under longer blockage duration. Recommendations can discuss scenario tradeoffs; the application does not control traffic signals or dispatch responders.
+
+8. APPLICATION ARCHITECTURE AND SHARED CONTRACTS
+
+Recommended stack:
+- Python/FastAPI API and orchestration service.
+- A modular TypeScript browser frontend; React/Vite is appropriate for the expanded map, timeline, and scenario state. If a coherent frontend already exists, evaluate it before replacing it.
+- Google Maps/deck.gl or MapLibre/deck.gl rendering adapter.
+- The prebuilt VAST DataEngine/S3/VastDB/VSS services, consumed through the verified workshop APIs.
+- SQLite for local application state if sufficient; do not duplicate the required live VAST pipeline behind a local-only substitute.
+- Background ingestion/analysis/simulation workers with a simple explicit job abstraction. Use a queue service when needed for worker separation.
+- Existing shared GPU inference endpoints on CoreWeave and a separate CPU SUMO worker; no model/pipeline redeployment.
+- Server-side configuration and secrets; .env.example with descriptions and no credentials.
+
+Before parallel implementation, the root agent must define canonical schemas and publish an API contract. Shared entities:
+Camera, MediaAsset, EvidenceSpan, Detection, Track, Observation, Incident, RoadSegment, RiskCell, SearchHit, ForecastRun, SimulationScenario, SimulationRun, AgentActivity, ProviderStatus, and Job. Keep measured detections distinct from application-derived tracks, and mark coordinate precision/source explicitly.
+
+Standardize identifiers, UTC timestamps, WGS84 coordinates, units, evidence spans, source provenance, job states, cancellation, and error envelopes. Use distinct entities/types for observations, forecasts, and simulations. Store data origin (archive, current snapshot, synthetic) separately from execution mode (real provider, mock, unavailable). A successful live API call over historical footage does not make the footage a live camera feed. Do not infer service health from credentials merely being present.
+
+Suggested PharOS-owned API surface, finalized by root before delegation (local /api; deploy with a configurable /app/api base so it does not conflict with the existing VSS /api/v1 routes):
+- GET /api/health, /api/overview, /api/integrations
+- GET /api/cameras and /api/cameras/{id}/snapshot
+- POST /api/sources/refresh
+- GET /api/archive; POST /api/reingest/jobs and /api/analysis/jobs; gate any new-media upload route behind confirmed organizer support
+- GET /api/jobs/{id}; POST /api/jobs/{id}/cancel
+- GET /api/incidents; POST /api/incidents/{id}/acknowledge
+- POST /api/search and /api/ask
+- GET /api/roads and /api/risk
+- POST /api/forecasts; GET /api/forecasts/{id}
+- POST /api/simulations; GET /api/simulations/{id}
+- GET /api/simulations/{id}/playback and comparison results
+- An SSE or WebSocket event stream for progress and new observations
+- POST /api/demo for an explicit, reproducible demonstration dataset
+
+If separately approved uploads are enabled, validate files against the live upstream limits and media-source rules. Bound collection, inference concurrency, retries, and retention. Fetch only validated catalog media or configured sources, avoiding arbitrary URL proxying. Keep external page/model content as data, not executable application instructions. Return useful error codes and redacted provider errors.
+
+Implement incident deduplication, retry-safe ingestion, evidence persistence, and consistent job cancellation. Keep source processing independent enough that one failed camera does not stop the application.
+
+9. APPLICATION AGENTS
+
+These are runtime application roles, separate from the coding subagents:
+- Perception: YOLO detections/tracks and Cosmos temporal observations.
+- Context: relevant traffic sensors, road data, weather, and reported issues.
+- Retrieval: semantic search for related footage with exact evidence spans.
+- Forecast: numerical traffic-model outputs and their evaluation metadata.
+- Simulation: scenario construction, execution, and comparison.
+- Operations: W&B-powered synthesis into a human-reviewable incident brief and recommendation.
+
+Use a clear orchestrated workflow with structured intermediate results. Only introduce an agent framework if it simplifies the implementation. Every material operational claim should link to evidence, a forecast output, or a clearly stated simulation assumption.
+
+10. CODING SUBAGENT SPLIT AND OWNERSHIP
+
+Use at most four concurrent agents: the root implementation lead plus three workers. Reuse workers across waves. Do not create separate user-facing tasks for internal subtasks.
+
+Root / integration lead owns:
+- Shared schemas, API contract, configuration, dependency manifests, application entry point, and database migrations.
+- Runtime orchestration, job lifecycle, application-state persistence, cross-module integration, and error handling.
+- Root README, environment documentation, deployment composition, integration/browser tests, final review, and final status.
+- Resolving contract changes. Workers propose changes rather than simultaneously editing shared files.
+
+Wave 1 — establish a complete vertical slice:
+
+Worker A: 3D console and interaction
+Own frontend/ and frontend-specific tests. Build against shared fixtures and the API contract. Implement map-provider adapter, camera selection, media/evidence panels, incident queue, search, provider status, and layer/time controls. Deliver a working fixture-backed UI and identify every expected endpoint.
+
+Worker B: public context and VAST archive/re-ingestion
+Own backend/ingestion/, backend/data_adapters/, scripts/discover_sources*, tests/ingestion/, and docs/FEEDS.*. Implement browser discovery, verified NYC contextual metadata, traffic sources, archive inventory, provenance, caching, and the existing DataEngine re-ingestion adapter. Define the media/metadata handoff used by Worker C. Keep NYC context separate from the licensed archive; do not rebuild VAST functions or upload public internet media.
+
+Worker C: model evidence and semantic retrieval
+Own backend/inference/, backend/retrieval/, services/tracking/, tests/inference/, and docs/INTEGRATIONS.*. Implement VSS search/Q&A/playback/metadata/detections adapters, W&B operational inference, and provider diagnostics. Inspect YOLO temporal sidecars and implement tracking only where supported. Collaborate with Worker B on selective re-ingestion and search verification. Do not create duplicate model servers or a replacement embedding index. Provide request/response contract tests.
+
+Root builds PharOS orchestration and integrates archive -> evidence/search -> incident brief plus the controlled re-ingestion path while workers proceed. Root or one assigned worker owns all actual shared-archive mutations.
+
+Wave 2 — forecasting, risk, and simulation:
+
+Worker A continues the frontend: observed/predicted risk, confidence and coverage legends, forecast controls, scenario editor, synchronized comparison, and playback.
+
+Worker B moves to forecasting and risk: own backend/forecasting/, backend/risk/, tests/forecasting/, and docs/FORECASTING.*. Implement road/sensor association, explainable risk scoring, baselines, a justified trained model if feasible, chronological evaluation, and forecast persistence through root's contract.
+
+Worker C moves to simulation: own backend/simulation/, simulation/networks/, simulation/scenarios/, tests/simulation/, and docs/SIMULATION.*. Implement the corridor SUMO network, scenario worker, reproducible runs, result metrics, and playback format.
+
+Root integrates forecast/simulation jobs, persistence, live event updates, UI contracts, and deployment configuration.
+
+Wave 3 — verification and delivery:
+
+Root runs the complete demo and verifies actual provider usage. Worker A checks browser flows, layout, responsiveness, and accessibility. Worker B checks source reliability, freshness, risk scoring, and forecast evaluation. Worker C checks model protocols, scenario metrics, failure paths, and deployment assumptions. Fix material issues and rerun affected checks.
+
+Every delegation message must include the exact task, owned paths, shared contracts, dependencies, definition of done, and files the agent must not edit. Each worker must return changed files, verification commands/results, interface assumptions, unresolved access, and remaining limitations. Avoid whole-repository refactors and conflicting edits.
+
+11. ACCESS DISCOVERY AND BLOCKERS
+
+At the start, determine whether the agent is on the workshop VM or the local PharOS checkout. On the VM, inspect environment presence first; config.example is documentation, not a file to populate. Team configuration lives in /config/<team>.config. If the assigned file is missing or ambiguous, ask for the team/environment instead of guessing or reading another team's credentials. W&B variables may already be exported even when absent from that file. Do not ask users to re-enter configured credentials.
+
+Use the actual workshop variable names:
+- USERNAME, PASSWORD, INGRESS_URL, PIPELINE.
+- S3_ENDPOINT, ACCESS_KEY, SECRET_KEY, S3_CHUNKS_BUCKET, S3_SEGMENTS_BUCKET.
+- VDB_ENDPOINT (documented fallback S3_ENDPOINT), VASTDB_BUCKET, VDB_SCHEMA, VDB_COLLECTION, VDB_PROMPTS_COLLECTION.
+- WANDB_API_KEY, WANDB_TEAM, WANDB_PROJECT.
+- COSMOS3_REASON_URL, COSMOS3_REASON_MODEL, YOLO_URL, COSMOS_EMBED1_URL, COSMOS_EMBED1_MODEL for direct diagnostics when needed.
+
+The documented model IDs are nvidia/cosmos3-reason and nvidia/cosmos-embed1; verify against the running endpoints. The repository has a configuration inconsistency: ARCHITECTURE_REFERENCE.md and config.example describe separate model URLs without auth, while GPU skill examples hardcode a shared host and require GPU_BEARER_TOKEN. Preserve the actual team's configured URLs, inspect available authentication settings without printing them, and resolve the deployed contract before direct diagnostics. Do not copy the hardcoded host or invent a token requirement. Normal app behavior can use authenticated VSS APIs without direct GPU calls. YOLO health uses /healthz; a missing /v1/models route is not proof of failure. Keep these internal services private.
+
+For a local agent without workshop connectivity, the principal missing access is the assigned workshop VM/team connection or an approved route to its APIs, not a request to provision new GPUs. Continue local work with fixtures while that is resolved. Only ask for credentials or permissions that are actually absent. Optional access remains Google Maps configuration and any separately approved NYC developer/media use.
+
+Deployment preparation should follow .cursor/skills/deployment/deploy-app-no-registry and the team's kubeconfig aliases. The supplied route is /app on the team host; account for that base path in frontend assets, API requests, streaming, and SPA navigation. The documented ingress strips /app before forwarding, so distinguish external URLs from internal server routes. Prepare manifests without rebuilding the VSS service. Apply deployment only when authorized. Registry credentials or fresh CoreWeave infrastructure are not prerequisites for this documented deployment path.
+
+The default deployment uses a public runtime image, mounted application code, and server-side Secrets. Its ConfigMap code payload is limited to roughly 1 MiB. Keep code small and choose a feasible approved asset/volume arrangement for frontend libraries, SUMO binaries, road networks, and run outputs; do not put node_modules, media, or large bundles into that ConfigMap. Verify permitted runtime dependency downloads or existing usable images instead of assuming a custom Docker build/push is available. Respect all third-party asset licenses and pin dependency versions.
+
+After an authorized deployment, verify pods, health checks, ingress rewriting, assets, API calls, and seekable playback at /app. The user-facing entry is https://workshop.thecosmoslabs.com -> App. INGRESS_URL is for server-side VSS calls and is not the link to hand to users. Report a local prototype separately from a verified workshop deployment.
+
+Put secrets in local environment configuration, never frontend bundles, logs, examples, or commits. A Google browser key is intentionally client-visible and must be restricted appropriately. Existing authorization to build permits routine local work; do not repeatedly request approval for it. Cloud provisioning and public deployment must stay within the user's provided access and authorized resource scope.
+
+If access is missing, complete the functioning local application, documented adapters, contract tests, and reproducible demo. Clearly identify which live integrations remain unverified. Never describe all required tools as used live until actual calls succeed.
+
+12. ACCEPTANCE CRITERIA
+
+The implementation is ready for local review when:
+- Documented setup starts the API, UI, and required local workers.
+- The 3D map works with at least one supported provider and shows verified NYC camera locations.
+- Camera/source media opens with truthful timestamps and capability labels.
+- An indexed licensed clip has real YOLO detections and Cosmos3-Reason reasoning with aligned evidence spans. Where selective re-ingestion is authorized, actual pipeline completion and refreshed results are verified.
+- Natural-language semantic search retrieves stored footage with playable time ranges.
+- W&B inference produces a recommendation grounded in available evidence and model outputs.
+- The risk layer exposes contributing evidence and handles missing/stale coverage correctly.
+- Forecasts expose their mode, evaluation against baseline, uncertainty, and provenance.
+- SUMO executes baseline and obstruction/clearance scenarios, stores reproducible inputs, and produces actual replay and comparison metrics.
+- The complete UI workflow functions without dead buttons or invented live statistics.
+- A deterministic demo works without secrets and is visibly identified as demo throughout.
+- Invalid requests, unsupported uploads, failed providers, stale feeds, duplicate ingestion, retries, and cancelled jobs have tested outcomes.
+
+Full live-integration completion additionally requires observed successful execution through browser discovery, real VSS semantic retrieval, W&B inference, and verified VAST DataEngine processing that exercises YOLO11, Cosmos3-Reason, Cosmos Embed1, and the VastDB writer on CoreWeave-hosted models. Record timestamps, model/service identifiers, redacted request/response evidence, and measured latency. Existing indexed results establish archive retrieval, but do not by themselves prove a new re-ingestion run. Honor the official skill's exact mutation confirmation requirements before running one. Credentials or mocks alone do not meet this criterion. Report the separate status of any application-added object tracking.
+
+Workshop delivery also requires a verified deployment in the assigned namespace behind /app and the workshop App entry. If access or authorization is unavailable, deliver the finished code, deployment artifacts, local verification, and explicit remaining deployment blocker rather than claiming challenge delivery is complete.
+
+Do not claim validated prediction accuracy, calibrated physical measurements, real-time performance, or citywide coverage without supporting measurements. If a criterion is blocked, identify exactly what remains and the access/data needed to verify it.
+
+13. DELIVERABLES AND FINAL REPORT
+
+Deliver:
+- Complete application source and meaningful tests.
+- Reproducible local setup, dependency lock/version information, .env.example, and container/deployment configuration.
+- Verified integration documentation and a concise access checklist.
+- Source attribution, required license notices, and media provenance notes.
+- One reproducible corridor scenario with documented geography and assumptions, plus the NYC context view. Keep any non-NYC archive evidence separate from NYC scenario inputs.
+- Forecast baseline/evaluation results and SUMO comparison outputs.
+- A polished local demo, screenshots from the running app, and a short walkthrough script. Create a demo recording if tooling permits.
+- A concise final report describing what works, what was actually tested, which providers ran live, and outstanding blockers.
+
+Keep the user informed with short progress updates about discoveries, completed behaviors, and material blockers. Finish authorized work before asking for optional next steps. Do not publish the site, submit the hackathon project, or send external messages unless specifically authorized.
+
+14. PRIMARY REFERENCES TO VERIFY DURING IMPLEMENTATION
+
+Hackathon: https://tokensand.com/vastnyc
+Authoritative challenge repository: https://github.com/vast-data/vast-builders-challenge
+Challenge architecture and corpus: https://github.com/vast-data/vast-builders-challenge/blob/main/ARCHITECTURE_REFERENCE.md
+Challenge environment: https://github.com/vast-data/vast-builders-challenge/blob/main/config.example
+Challenge API skills: https://github.com/vast-data/vast-builders-challenge/tree/main/.cursor/skills
+OlympusOS: https://github.com/NevineAKF/OlympusOS
+NYC cameras: https://webcams.nyctmc.org/cameras-list
+NYC DOT data/access: https://www.nyc.gov/html/dot/html/about/datafeeds.shtml
+NYC DOT speed metadata: https://www.nyc.gov/html/dot/downloads/pdf/metadata-trafficspeeds.pdf
+NVIDIA VSS: https://docs.nvidia.com/vss/latest/
+Workshop GPU contracts: https://github.com/vast-data/vast-builders-challenge/tree/main/.cursor/skills/gpu
+Ultralytics tracking: https://docs.ultralytics.com/modes/track/
+W&B inference: https://docs.wandb.ai/inference
+Google vector maps: https://developers.google.com/maps/documentation/javascript/vector-map
+Google/deck.gl integration: https://deck.gl/docs/developer-guide/base-maps/using-with-google-maps
+MapLibre 3D buildings: https://maplibre.org/maplibre-gl-js/docs/examples/display-buildings-in-3d/
+OpenFreeMap: https://openfreemap.org/quick_start/
+SUMO OSM setup: https://sumo.dlr.de/docs/Tutorials/OSMWebWizard.html
+SUMO rerouting: https://eclipse.dev/sumo/docs/Simulation/Rerouter.html
+SUMO metrics: https://sumo.dlr.de/docs/Simulation/Output/TripInfo.html
+
+Treat these as starting points. Validate current deployed versions and service contracts instead of copying incompatible examples or guessing endpoint payloads.
