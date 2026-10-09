@@ -3,10 +3,26 @@ export function boxesAtTime(
   detections: Detection[],
   seconds: number,
 ): Detection[] {
-  // Never hold a detection across an unknown interval or imply a continuous track.
-  return detections.filter(
-    (detection) => Math.abs(detection.timestamp_sec - seconds) <= 0.26,
-  );
+  // Show one recorded frame, preserving all of its boxes. A tolerance window
+  // alone would stack many adjacent frames from dense sidecars (for example 30fps).
+  // Keep the time bound so sparse detections cannot imply continuous tracking.
+  let nearestTimestamp: number | null = null;
+  let nearestDistance = Infinity;
+  for (const detection of detections) {
+    const distance = Math.abs(detection.timestamp_sec - seconds);
+    if (!Number.isFinite(distance) || distance > 0.26) continue;
+    if (
+      distance < nearestDistance - 1e-9 ||
+      (Math.abs(distance - nearestDistance) <= 1e-9 &&
+        (nearestTimestamp === null || detection.timestamp_sec < nearestTimestamp))
+    ) {
+      nearestTimestamp = detection.timestamp_sec;
+      nearestDistance = distance;
+    }
+  }
+  return nearestTimestamp === null
+    ? []
+    : detections.filter((detection) => detection.timestamp_sec === nearestTimestamp);
 }
 export function normalizedBox(
   detection: Detection,
