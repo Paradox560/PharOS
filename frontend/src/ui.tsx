@@ -4,15 +4,35 @@ import { humanize } from "./api";
 export function Badge({
   children,
   tone = "",
+  title,
 }: {
   children: ReactNode;
   tone?: string;
+  title?: string;
 }) {
-  return <span className={`badge ${tone}`}>{children}</span>;
+  return (
+    <span className={`badge ${tone}`} title={title}>
+      {children}
+    </span>
+  );
 }
 export function OriginBadge({ value }: { value: string }) {
+  const labels: Record<string, string> = {
+    mock: "Demo output",
+    real_provider: "Verified execution",
+    synthetic: "Demo data",
+    archive: "Archive footage",
+    current_snapshot: "Public snapshot",
+    public_sensor: "Sensor observation",
+    unavailable: "Unavailable",
+  };
   return (
     <Badge
+      title={
+        value === "real_provider"
+          ? "This request used the configured provider. Archived results do not imply a new model run."
+          : undefined
+      }
       tone={
         value === "synthetic" || value === "mock"
           ? "amber"
@@ -21,7 +41,7 @@ export function OriginBadge({ value }: { value: string }) {
             : ""
       }
     >
-      {humanize(value)}
+      {labels[value] || humanize(value)}
     </Badge>
   );
 }
@@ -50,7 +70,6 @@ export function Empty({
 }) {
   return (
     <div className="empty">
-      <span className="empty-mark">⊙</span>
       <strong>{title}</strong>
       <p>{children}</p>
     </div>
@@ -59,15 +78,17 @@ export function Empty({
 export function SafeLink({
   href,
   children,
+  className,
 }: {
   href: string | null | undefined;
   children: ReactNode;
+  className?: string;
 }) {
   return href && /^https?:\/\//.test(href) ? (
-    <a href={href} target="_blank" rel="noreferrer">
+    <a href={href} className={className} target="_blank" rel="noreferrer">
       {children}
     </a>
   ) : (
-    <span>{children}</span>
+    <span className={className}>{children}</span>
   );
 }
