@@ -1,0 +1,166 @@
+{
+  "id": "reference-final",
+  "state": "succeeded",
+  "scenario": {
+    "name": "1st Avenue \u00b7 synthetic early vs late clearance",
+    "network_id": "nyc-demo-corridor",
+    "duration_sec": 600,
+    "demand_vph": 900,
+    "blockage_start_sec": 60,
+    "early_clearance_sec": 180,
+    "late_clearance_sec": 420,
+    "seeds": [
+      42
+    ]
+  },
+  "engine": "Eclipse SUMO sumo 1.27.1",
+  "network_version": "osm-2026-10-09-v1",
+  "network_sha256": "6afe85d13e6a0b2eaa65087cb8028542ea12ac89205c6389dae7e91475cf916f",
+  "data_origin": "synthetic",
+  "execution_mode": "real_provider",
+  "baseline": {
+    "scheduled_vehicles": 150.0,
+    "departed_vehicles": 150.0,
+    "throughput": 60.0,
+    "unfinished_vehicles": 90.0,
+    "insertion_backlog": 0.0,
+    "completion_rate": 0.4,
+    "mean_completed_travel_time_sec": 370.68,
+    "mean_elapsed_journey_time_sec": 257.47,
+    "total_elapsed_journey_time_sec": 38621.0,
+    "total_waiting_time_sec": 19183.0,
+    "total_delay_sec": 25876.4,
+    "mean_delay_sec": 172.51,
+    "peak_queue_vehicles": 87.0,
+    "mean_queue_vehicles": 31.97,
+    "metric_note": "Elapsed journey time includes unfinished and not-yet-inserted vehicles and is a censored lower bound; completed travel time excludes unfinished vehicles. Waiting/delay include insertion backlog.",
+    "per_seed": [
+      {
+        "seed": 42,
+        "scheduled_vehicles": 150,
+        "departed_vehicles": 150,
+        "throughput": 60,
+        "unfinished_vehicles": 90,
+        "insertion_backlog": 0,
+        "completion_rate": 0.4,
+        "mean_completed_travel_time_sec": 370.68,
+        "mean_elapsed_journey_time_sec": 257.47,
+        "total_elapsed_journey_time_sec": 38621.0,
+        "total_waiting_time_sec": 19183.0,
+        "total_delay_sec": 25876.4,
+        "mean_delay_sec": 172.51,
+        "peak_queue_vehicles": 87,
+        "mean_queue_vehicles": 31.97,
+        "metric_note": "Elapsed journey time includes unfinished and not-yet-inserted vehicles and is a censored lower bound; completed travel time excludes unfinished vehicles. Waiting/delay include insertion backlog."
+      }
+    ],
+    "affected_road_ids": []
+  },
+  "early": {
+    "scheduled_vehicles": 150.0,
+    "departed_vehicles": 150.0,
+    "throughput": 54.0,
+    "unfinished_vehicles": 96.0,
+    "insertion_backlog": 0.0,
+    "completion_rate": 0.36,
+    "mean_completed_travel_time_sec": 413.46,
+    "mean_elapsed_journey_time_sec": 274.98,
+    "total_elapsed_journey_time_sec": 41247.0,
+    "total_waiting_time_sec": 21027.0,
+    "total_delay_sec": 28233.9,
+    "mean_delay_sec": 188.23,
+    "peak_queue_vehicles": 101.0,
+    "mean_queue_vehicles": 35.05,
+    "metric_note": "Elapsed journey time includes unfinished and not-yet-inserted vehicles and is a censored lower bound; completed travel time excludes unfinished vehicles. Waiting/delay include insertion backlog.",
+    "per_seed": [
+      {
+        "seed": 42,
+        "scheduled_vehicles": 150,
+        "departed_vehicles": 150,
+        "throughput": 54,
+        "unfinished_vehicles": 96,
+        "insertion_backlog": 0,
+        "completion_rate": 0.36,
+        "mean_completed_travel_time_sec": 413.46,
+        "mean_elapsed_journey_time_sec": 274.98,
+        "total_elapsed_journey_time_sec": 41247.0,
+        "total_waiting_time_sec": 21027.0,
+        "total_delay_sec": 28233.9,
+        "mean_delay_sec": 188.23,
+        "peak_queue_vehicles": 101,
+        "mean_queue_vehicles": 35.05,
+        "metric_note": "Elapsed journey time includes unfinished and not-yet-inserted vehicles and is a censored lower bound; completed travel time excludes unfinished vehicles. Waiting/delay include insertion backlog."
+      }
+    ],
+    "affected_road_ids": [
+      "osm-420598230#0"
+    ]
+  },
+  "late": {
+    "scheduled_vehicles": 150.0,
+    "departed_vehicles": 150.0,
+    "throughput": 0.0,
+    "unfinished_vehicles": 150.0,
+    "insertion_backlog": 0.0,
+    "completion_rate": 0.0,
+    "mean_completed_travel_time_sec": null,
+    "mean_elapsed_journey_time_sec": 302.0,
+    "total_elapsed_journey_time_sec": 45300.0,
+    "total_waiting_time_sec": 29321.0,
+    "total_delay_sec": 35833.38,
+    "mean_delay_sec": 238.89,
+    "peak_queue_vehicles": 136.0,
+    "mean_queue_vehicles": 48.87,
+    "metric_note": "Elapsed journey time includes unfinished and not-yet-inserted vehicles and is a censored lower bound; completed travel time excludes unfinished vehicles. Waiting/delay include insertion backlog.",
+    "per_seed": [
+      {
+        "seed": 42,
+        "scheduled_vehicles": 150,
+        "departed_vehicles": 150,
+        "throughput": 0,
+        "unfinished_vehicles": 150,
+        "insertion_backlog": 0,
+        "completion_rate": 0.0,
+        "mean_completed_travel_time_sec": null,
+        "mean_elapsed_journey_time_sec": 302.0,
+        "total_elapsed_journey_time_sec": 45300.0,
+        "total_waiting_time_sec": 29321.0,
+        "total_delay_sec": 35833.38,
+        "mean_delay_sec": 238.89,
+        "peak_queue_vehicles": 136,
+        "mean_queue_vehicles": 48.87,
+        "metric_note": "Elapsed journey time includes unfinished and not-yet-inserted vehicles and is a censored lower bound; completed travel time excludes unfinished vehicles. Waiting/delay include insertion backlog."
+      }
+    ],
+    "affected_road_ids": [
+      "osm-420598230#0"
+    ]
+  },
+  "comparison": {
+    "delay_saved_sec": 7599.48,
+    "additional_completed_vehicles": 54.0,
+    "queue_reduction_vehicles": 35.0,
+    "elapsed_journey_time_saved_sec": 4053.0,
+    "comparison": "late minus early delay/queue; early minus late throughput; same demand and paired seeds",
+    "seed_count": 1
+  },
+  "assumptions": [
+    "OpenStreetMap road geometry and one-way direction imported on 2026-10-09; network is a bounded Manhattan extract.",
+    "Northbound 1st Avenue through-route; nearby cross streets are retained in the network but receive no synthetic cross traffic.",
+    "OSM lane and speed tags are retained where present; netconvert defaults and lane connections fill missing attributes.",
+    "Traffic signals are imported/guessed with SUMO static timing, not observed NYC signal plans.",
+    "Passenger cars only; bus-priority restrictions, cyclists, pedestrians, turn demand, parking and real signal coordination are not calibrated.",
+    "Demand is synthetic and this model has not been validated against observed corridor speeds or flows.",
+    "Uniform synthetic vehicle arrivals; no calibration to current traffic sensors.",
+    "Severe obstruction caps every lane of the selected link at 0.1 m/s until clearance; no rerouting.",
+    "Playback shows only the first seed. Metrics are arithmetic means across paired seeds.",
+    "This Manhattan scenario is separate from workshop archive footage and cannot establish effects of an archived incident."
+  ],
+  "created_at": "2026-10-09T16:16:09.741595Z",
+  "verification": {
+    "elapsed_wall_sec": 5.408,
+    "frame_count": 61,
+    "deterministic_repeat_verified": true,
+    "validation": "Local SUMO only; not observed traffic calibration"
+  }
+}
