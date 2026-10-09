@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 from contextlib import asynccontextmanager
 from copy import deepcopy
 import json
+import secrets
 from pathlib import Path
 import time
 from uuid import uuid4
@@ -13,6 +15,7 @@ from fastapi import FastAPI, Request, Query
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, Response, StreamingResponse
 from starlette.background import BackgroundTask
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from backend.config import ROOT, Settings
 from backend.errors import ProviderError
@@ -34,6 +37,8 @@ def create_app(settings: Settings | None = None):
 
     @asynccontextmanager
     async def lifespan(app):
+        if settings.require_auth and not settings.operator_password:
+            raise RuntimeError('PHAROS_OPERATOR_PASSWORD is required when operator authentication is enabled.')
         state = app.state
         state.settings = settings
         state.store = Store(settings.database_path)
@@ -69,8 +74,28 @@ def create_app(settings: Settings | None = None):
         details = [{'field': '.'.join(str(x) for x in error['loc']), 'message': error['msg']} for error in exc.errors()]
         return JSONResponse({'error': {'code': 'invalid_request', 'message': 'Request validation failed.', 'details': details}}, status_code=422)
 
+    @app.exception_handler(StarletteHTTPException)
+    async def http_error(request, exc):
+        code = 'not_found' if exc.status_code == 404 else 'http_error'
+        return JSONResponse({'error': {'code': code, 'message': str(exc.detail)}}, status_code=exc.status_code)
+
+    @app.exception_handler(Exception)
+    async def unexpected_error(request, exc):
+        return JSONResponse({'error': {'code':'internal_error', 'message':'The application could not complete this request.'}}, status_code=500)
+
     @app.middleware('http')
     async def protect_request(request, call_next):
+        if settings.require_auth and request.url.path not in {'/api/health', '/app/api/health'}:
+            accepted = False
+            try:
+                scheme, encoded = request.headers.get('authorization', '').split(' ', 1)
+                username, password = base64.b64decode(encoded, validate=True).decode('utf-8').split(':', 1)
+                accepted = scheme.lower() == 'basic' and secrets.compare_digest(username.encode(), settings.operator_username.encode()) and secrets.compare_digest(password.encode(), settings.operator_password.encode())
+            except (ValueError, UnicodeError):
+                pass
+            if not accepted:
+                return JSONResponse({'error': {'code':'operator_auth_required', 'message':'Sign in to access this operator workspace.'}},status_code=401,
+                                    headers={'WWW-Authenticate':'Basic realm="PharOS operator", charset="UTF-8"'})
         if request.method in {'POST', 'PUT', 'PATCH', 'DELETE'}:
             origin = request.headers.get('origin')
             if origin:
@@ -238,6 +263,11 @@ def create_app(settings: Settings | None = None):
             return FileResponse(ROOT / 'backend' / 'assets' / 'synthetic-traffic.mp4', media_type='video/mp4')
         response = await app.state.retrieval.media(asset, request.headers.get('range'))
         safe_headers = {k: v for k, v in response.headers.items() if k.lower() in {'content-type', 'content-length', 'content-range', 'accept-ranges', 'etag', 'last-modified'}}
+        media_source = asset.get('original_video') or asset.get('source_uri') or ''
+        if safe_headers.get('content-type', '').split(';')[0] in {'binary/octet-stream', 'application/octet-stream'} and media_source.lower().endswith('.mp4'):
+            # Live VSS emits generic S3 MIME for MP4. This is a registered media
+            # URI, never a caller-provided arbitrary URL; retain seek headers.
+            safe_headers['content-type'] = 'video/mp4'
         async def chunks():
             try:
                 async for chunk in response.aiter_raw():

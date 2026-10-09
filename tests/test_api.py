@@ -95,3 +95,16 @@ def test_missing_access_never_silently_returns_demo_when_disabled(tmp_path):
         response = client.get('/api/archive')
         assert response.status_code == 503 and response.json()['error']['code'] == 'vss_unconfigured'
         assert client.get('/api/overview').json()['assets'] == []
+
+
+def test_operator_auth_protects_archive_media_and_mutations(tmp_path):
+    settings = Settings(database_path=str(tmp_path/'state.db'), source_cache_dir=str(tmp_path/'src'), public_sources_enabled=False,
+        ingress_url='', username='', password='', require_auth=True, operator_password='local-test-only')
+    with TestClient(create_app(settings)) as client:
+        assert client.get('/api/health').status_code == 200
+        for path in ['/api/overview','/api/assets/demo-traffic/media','/']:
+            response = client.get(path)
+            assert response.status_code == 401 and 'Basic' in response.headers['www-authenticate']
+        assert client.post('/api/demo').status_code == 401
+        assert client.get('/api/overview',auth=('operator','wrong')).status_code == 401
+        assert client.get('/api/overview',auth=('operator','local-test-only')).status_code == 200
