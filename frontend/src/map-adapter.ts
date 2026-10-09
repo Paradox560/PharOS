@@ -24,12 +24,14 @@ export interface MapData {
   vehicles: { vehicle: VehicleState; scenario: string }[];
   selectedCamera: string | null;
   layers: Layers;
+  reducedMotion?: boolean;
 }
 export interface MapAdapter {
   update(data: MapData): void;
-  focus(points: [number, number][], reducedMotion: boolean): void;
-  reset(): void;
-  tilt(): void;
+  focus(points: [number, number][], immediate: boolean, unlocated?: boolean): void;
+  zoom(direction: number, immediate?: boolean): void;
+  reset(immediate?: boolean): void;
+  tilt(immediate?: boolean): void;
   resize(): void;
   destroy(): void;
 }
@@ -38,9 +40,29 @@ export interface MapAdapter {
 export class MapLibreAdapter implements MapAdapter {
   private map: LibreMap;
   private ready = false;
-  private reducedMotion = matchMedia("(prefers-reduced-motion: reduce)")
-    .matches;
+  private motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+  private reducedMotion = false;
+  private destroyed = false;
   private pending: MapData | null = null;
+  private onKeyboard = (event: KeyboardEvent) => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    const map = this.map;
+    if (["+", "=", "-", "_"].includes(event.key)) {
+      event.preventDefault();
+      this.zoom(event.key === "+" || event.key === "=" ? 1 : -1, true);
+      return;
+    }
+    const direction = ({ ArrowLeft: [-100, 0], ArrowRight: [100, 0], ArrowUp: [0, -100], ArrowDown: [0, 100] } as Record<string, [number, number]>)[event.key];
+    if (!direction) return;
+    event.preventDefault();
+    map.stop();
+    if (event.shiftKey) {
+      map.jumpTo({
+        bearing: map.getBearing() + direction[0] / 100 * 15,
+        pitch: Math.max(0, Math.min(75, map.getPitch() - direction[1] / 100 * 10)),
+      });
+    } else map.panBy(direction, { duration: 0 });
+  };
   constructor(
     container: HTMLDivElement,
     onSelect: (kind: "camera" | "road", id: string) => void,
@@ -54,13 +76,20 @@ export class MapLibreAdapter implements MapAdapter {
       pitch: 52,
       bearing: -27,
       maxPitch: 75,
+      keyboard: false,
+      doubleClickZoom: false,
       attributionControl: false,
       canvasContextAttributes: { antialias: true },
     });
-    this.map.addControl(
-      new maplibregl.NavigationControl({ visualizePitch: true }),
-      "bottom-right",
-    );
+    const canvas = this.map.getCanvas();
+    canvas.setAttribute("aria-label", "Interactive map. Arrow keys pan; plus and minus zoom; Shift with arrow keys rotates or tilts.");
+    canvas.addEventListener("keydown", this.onKeyboard);
+    this.map.on("dblclick", (event) => {
+      this.map.zoomTo(this.map.getZoom() + (event.originalEvent.shiftKey ? -1 : 1), {
+        around: event.lngLat,
+        duration: this.duration(),
+      });
+    });
     this.map.addControl(
       new maplibregl.AttributionControl({ compact: true }),
       "bottom-left",
@@ -176,10 +205,10 @@ export class MapLibreAdapter implements MapAdapter {
         source: "pharos-cameras",
         filter: ["has", "point_count"],
         paint: {
-          "circle-color": "#b6df7d",
+          "circle-color": "#192630",
           "circle-radius": 16,
           "circle-stroke-width": 4,
-          "circle-stroke-color": "#202b20",
+          "circle-stroke-color": "#adc9da",
         },
       });
       this.map.addLayer({
@@ -192,7 +221,7 @@ export class MapLibreAdapter implements MapAdapter {
           "text-font": ["Noto Sans Regular"],
           "text-size": 11,
         },
-        paint: { "text-color": "#102014" },
+        paint: { "text-color": "#f0f5f8" },
       });
       this.map.addLayer({
         id: "pharos-camera-halo",
@@ -201,8 +230,8 @@ export class MapLibreAdapter implements MapAdapter {
         filter: ["!", ["has", "point_count"]],
         paint: {
           "circle-radius": ["case", ["get", "selected"], 18, 11],
-          "circle-color": "#bfe18b",
-          "circle-opacity": 0.13,
+          "circle-color": ["case", ["get", "selected"], "#d0f0a1", "#b9d7eb"],
+          "circle-opacity": 0.17,
         },
       });
       this.map.addLayer({
@@ -211,20 +240,20 @@ export class MapLibreAdapter implements MapAdapter {
         source: "pharos-cameras",
         filter: ["!", ["has", "point_count"]],
         paint: {
-          "circle-radius": ["case", ["get", "selected"], 7, 5],
-          "circle-color": [
-            "match",
-            ["get", "status"],
-            "unavailable",
-            "#6a746c",
-            "demo",
-            "#d9be77",
-            "cached",
-            "#d9be77",
-            "#c5ef8c",
-          ],
-          "circle-stroke-color": "#18221c",
+          "circle-radius": ["case", ["get", "selected"], 8, 6],
+          "circle-color": "#162530",
+          "circle-stroke-color": ["case", ["get", "selected"], "#d0f0a1", "#d7e6ef"],
           "circle-stroke-width": 2,
+        },
+      });
+      this.map.addLayer({
+        id: "pharos-camera-lens",
+        type: "circle",
+        source: "pharos-cameras",
+        filter: ["!", ["has", "point_count"]],
+        paint: {
+          "circle-radius": ["case", ["get", "selected"], 3.5, 2.5],
+          "circle-color": ["case", ["get", "selected"], "#d0f0a1", "#d7e6ef"],
         },
       });
       this.map.addLayer({
@@ -236,7 +265,7 @@ export class MapLibreAdapter implements MapAdapter {
         layout: {
           "text-field": ["get", "name"],
           "text-font": ["Noto Sans Regular"],
-          "text-size": 10,
+          "text-size": 12,
           "text-offset": [0, 1.7],
           "text-max-width": 14,
         },
@@ -279,10 +308,11 @@ export class MapLibreAdapter implements MapAdapter {
         const zoom = await (
           this.map.getSource("pharos-cameras") as GeoJSONSource
         ).getClusterExpansionZoom(feature.properties.cluster_id);
+        if (this.destroyed) return;
         this.map.easeTo({
           center: feature.geometry.coordinates as [number, number],
           zoom,
-          duration: this.reducedMotion ? 0 : 700,
+          duration: this.duration(),
         });
       });
       for (const layer of [
@@ -304,6 +334,7 @@ export class MapLibreAdapter implements MapAdapter {
   }
   update(data: MapData) {
     this.pending = data;
+    this.reducedMotion = Boolean(data.reducedMotion);
     if (!this.ready) return;
     const cameras = data.cameras.filter(
       (camera) => camera.lat != null && camera.lon != null,
@@ -358,6 +389,7 @@ export class MapLibreAdapter implements MapAdapter {
       cameras: [
         "pharos-cameras",
         "pharos-camera-halo",
+        "pharos-camera-lens",
         "pharos-camera-labels",
         "pharos-clusters",
         "pharos-cluster-count",
@@ -375,14 +407,21 @@ export class MapLibreAdapter implements MapAdapter {
         );
     }
   }
-  focus(points: [number, number][], reducedMotion: boolean) {
-    this.reducedMotion = reducedMotion;
+  private duration(immediate = false) {
+    return immediate || this.reducedMotion || this.motionPreference.matches ? 0 : 220;
+  }
+  focus(points: [number, number][], immediate: boolean, unlocated = false) {
+    this.map.stop();
+    if (unlocated) {
+      this.map.jumpTo({ center: [0, 20], zoom: 1.7, pitch: 0, bearing: 0 });
+      return;
+    }
     if (!points.length) return;
     if (points.length === 1)
       this.map.easeTo({
         center: points[0],
         zoom: 15.4,
-        duration: reducedMotion ? 0 : 700,
+        duration: this.duration(immediate),
       });
     else
       this.map.fitBounds(
@@ -390,22 +429,27 @@ export class MapLibreAdapter implements MapAdapter {
           (bounds, point) => bounds.extend(point),
           new maplibregl.LngLatBounds(points[0], points[0]),
         ),
-        { padding: 70, maxZoom: 15.5, duration: reducedMotion ? 0 : 700 },
+        { padding: 70, maxZoom: 15.5, duration: this.duration(immediate) },
       );
   }
-  reset() {
-    this.map.easeTo({ bearing: 0, duration: this.reducedMotion ? 0 : 450 });
+  zoom(direction: number, immediate = false) {
+    this.map.easeTo({ zoom: Math.max(this.map.getMinZoom(), Math.min(this.map.getMaxZoom(), this.map.getZoom() + direction)), duration: this.duration(immediate) });
   }
-  tilt() {
+  reset(immediate = false) {
+    this.map.easeTo({ bearing: 0, duration: this.duration(immediate) });
+  }
+  tilt(immediate = false) {
     this.map.easeTo({
       pitch: this.map.getPitch() > 15 ? 0 : 55,
-      duration: this.reducedMotion ? 0 : 450,
+      duration: this.duration(immediate),
     });
   }
   resize() {
     this.map.resize();
   }
   destroy() {
+    this.destroyed = true;
+    this.map.getCanvas().removeEventListener("keydown", this.onKeyboard);
     this.map.remove();
   }
 }
