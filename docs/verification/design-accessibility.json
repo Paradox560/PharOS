@@ -1,0 +1,79 @@
+{
+  "url": "http://127.0.0.1:8765",
+  "checks": [
+    {
+      "name": "desktop_no_overflow",
+      "status": "passed",
+      "detail": {
+        "width": 1600,
+        "documentWidth": 1600,
+        "bodyWidth": 1600,
+        "overflow": []
+      },
+      "elapsed_ms": 4
+    },
+    {
+      "name": "layers_keyboard_dismissal_and_legend",
+      "status": "passed",
+      "detail": "Keyboard open, first-checkbox focus, Escape and outside close, trigger focus return, camera legend visibility",
+      "elapsed_ms": 228
+    },
+    {
+      "name": "map_keyboard_and_reduced_motion",
+      "status": "passed",
+      "detail": {
+        "keyboard_zoom_and_pan_instant": true,
+        "reduced_pointer_motion_instant": true,
+        "pointer_map_motion_ms": 231
+      },
+      "elapsed_ms": 467
+    },
+    {
+      "name": "mobile_390_navigation",
+      "status": "passed",
+      "detail": "Browse/Map/Analysis reachable; all four analysis panels and their primary actions reachable; no horizontal overflow",
+      "elapsed_ms": 774
+    },
+    {
+      "name": "tablet_768_navigation",
+      "status": "passed",
+      "detail": "Browse/Map/Analysis reachable; all four analysis panels and their primary actions reachable; no horizontal overflow",
+      "elapsed_ms": 820
+    },
+    {
+      "name": "panel_switch_scroll_reset",
+      "status": "passed",
+      "detail": {
+        "scrollTop": 0
+      },
+      "elapsed_ms": 165
+    },
+    {
+      "name": "mobile_200_percent_text",
+      "status": "passed",
+      "detail": "All four panels accessible at 200% root font size and 390px viewport",
+      "elapsed_ms": 402
+    }
+  ],
+  "page_errors": [],
+  "screenshots": [
+    "artifacts/design-a11y/01-desktop.png",
+    "artifacts/design-a11y/02-reduced-motion.png",
+    "artifacts/design-a11y/03-mobile-browse.png",
+    "artifacts/design-a11y/03-mobile-map.png",
+    "artifacts/design-a11y/03-mobile-evidence.png",
+    "artifacts/design-a11y/03-mobile-forecast.png",
+    "artifacts/design-a11y/03-mobile-scenario.png",
+    "artifacts/design-a11y/03-mobile-brief.png",
+    "artifacts/design-a11y/04-tablet-browse.png",
+    "artifacts/design-a11y/04-tablet-map.png",
+    "artifacts/design-a11y/04-tablet-evidence.png",
+    "artifacts/design-a11y/04-tablet-forecast.png",
+    "artifacts/design-a11y/04-tablet-scenario.png",
+    "artifacts/design-a11y/04-tablet-brief.png",
+    "artifacts/design-a11y/05-mobile-panel-switch.png",
+    "artifacts/design-a11y/05-mobile-200-percent-text.png"
+  ],
+  "notes": [],
+  "status": "passed"
+}

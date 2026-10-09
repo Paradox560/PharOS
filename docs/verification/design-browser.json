@@ -1,0 +1,14 @@
+{
+  "page_errors": [],
+  "workflow": [
+    "3D map",
+    "seek + detection toggle",
+    "search + exact span",
+    "forecast",
+    "SUMO comparison + replay",
+    "cited brief",
+    "provider dialog",
+    "mobile viewport"
+  ],
+  "status": "passed"
+}
