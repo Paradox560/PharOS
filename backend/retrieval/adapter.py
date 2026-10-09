@@ -34,7 +34,9 @@ class RetrievalAdapter:
                 if not all(v in options for v in values):
                     raise ProviderError("unknown_metadata_value", "A requested filter value is not present in the workshop metadata.", 422)
         body = {key: payload[key] for key in ("time_filter", "metadata_filters", "tags", "custom_start_date", "custom_end_date", "min_similarity", "hybrid_text_weight") if key in payload}
-        body.update(query=query, top_k=top_k, llm_top_n=0)
+        # Team 8 live validation requires >= 1. VSS synthesis is distinct from
+        # PharOS's W&B operational recommendation and is not shown as that agent.
+        body.update(query=query, top_k=top_k, llm_top_n=1)
         raw = await self.client.request("POST", "/search", json=body)
         if not isinstance(raw, dict) or not isinstance(raw.get("results", []), list):
             raise ProviderError("vss_protocol", "Workshop search returned an unsupported response.")

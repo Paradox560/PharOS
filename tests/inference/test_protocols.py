@@ -80,6 +80,7 @@ class ProtocolTests(unittest.IsolatedAsyncioTestCase):
         parent = "s3://team8-chunks/capture space.mp4"
         class Client:
             async def request(self, method, path, json=None, params=None):
+                assert json['llm_top_n'] == 1  # Team 8 live 422 rejects zero.
                 return {"results": [{"source": source, "original_video": parent, "start_sec": 20.25, "end_sec": 25.75, "similarity_score": .8, "location": "toronto", "reasoning_content": "A vehicle waits."}], "chunk_results": [{"original_video": parent, "best_match_start_sec": 20.25, "best_match_end_sec": 25.75}]}
         result = await RetrievalAdapter(Client()).search({"query": "stopped vehicle"})
         hit = result["results"][0]
