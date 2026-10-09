@@ -1,0 +1,176 @@
+{
+  "verified_at": "2026-10-09T16:12:58.167467+00:00",
+  "status": "available",
+  "sources": [
+    {
+      "id": "nyc-cameras",
+      "source_url": "https://webcams.nyctmc.org/cameras/graphql",
+      "status": "available",
+      "record_count": 982
+    },
+    {
+      "id": "nyc-dot-speed",
+      "source_url": "https://data.cityofnewyork.us/resource/i4gi-tjb9.json",
+      "status": "available",
+      "checked_at": "2026-10-09T16:12:58.137376Z",
+      "record_count": 500,
+      "freshness": "stale"
+    },
+    {
+      "id": "nyc-311",
+      "source_url": "https://data.cityofnewyork.us/resource/erm2-nwe9.json",
+      "status": "available",
+      "checked_at": "2026-10-09T16:12:53.900112Z",
+      "record_count": 100,
+      "freshness": "fresh"
+    },
+    {
+      "id": "nws-knyc",
+      "source_url": "https://api.weather.gov/stations/KNYC/observations/latest",
+      "status": "available",
+      "checked_at": "2026-10-09T16:12:53.894137Z",
+      "record_count": 1,
+      "freshness": "fresh"
+    }
+  ],
+  "camera_count": 982,
+  "records_by_kind": {
+    "traffic_speed": 500,
+    "service_report": 100,
+    "weather": 1
+  },
+  "sample_records": [
+    {
+      "id": "speed-4362250-2026-10-09T12:11:08Z",
+      "kind": "traffic_speed",
+      "source_id": "nyc-dot-speed",
+      "sensor_id": "4362250",
+      "name": "CVE NB GCP - WILLETS PT BLVD",
+      "borough": "Queens",
+      "observed_at": "2026-10-09T12:11:08Z",
+      "speed_native": 48.46,
+      "speed_unit": "source_unspecified",
+      "speed_kph": null,
+      "travel_time_sec": 340.0,
+      "source_status": "0",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -73.790191,
+            40.78795
+          ],
+          [
+            -73.78812,
+            40.78647
+          ],
+          [
+            -73.787781,
+            40.7862104
+          ],
+          [
+            -73.787381,
+            40.78587
+          ],
+          [
+            -73.786931,
+            40.7854106
+          ],
+          [
+            -73.786261,
+            40.7846506
+          ],
+          [
+            -73.786071,
+            40.7843806
+          ],
+          [
+            -73.78547,
+            40.78327
+          ],
+          [
+            -73.785271,
+            40.78266
+          ],
+          [
+            -73.78463,
+            40.7795604
+          ],
+          [
+            -73.78439,
+            40.77606
+          ],
+          [
+            -73.78426,
+            40.77373
+          ]
+        ]
+      },
+      "provenance": {
+        "source_url": "https://data.cityofnewyork.us/resource/i4gi-tjb9.json",
+        "captured_at": "2026-10-09T12:11:08Z",
+        "processed_at": "2026-10-09T16:12:58.128008Z",
+        "data_origin": "public_sensor",
+        "execution_mode": "real_provider",
+        "freshness": "stale",
+        "notes": [
+          "Socrata floating timestamp interpreted in America/New_York.",
+          "Published speed metadata omits units. Native speed is retained; km/h conversion is unavailable.",
+          "Link points may be truncated by the source; geometry is context, not a validated routable network."
+        ]
+      }
+    },
+    {
+      "id": "311-70676417",
+      "kind": "service_report",
+      "source_id": "nyc-311",
+      "summary": "Street Condition \u00b7 Pothole",
+      "status": "Open",
+      "borough": "QUEENS",
+      "lat": null,
+      "lon": null,
+      "observed_at": "2026-10-08T06:17:52Z",
+      "provenance": {
+        "source_url": "https://data.cityofnewyork.us/resource/erm2-nwe9.json",
+        "captured_at": "2026-10-08T06:17:52Z",
+        "processed_at": "2026-10-09T16:12:53.898264Z",
+        "data_origin": "public_sensor",
+        "execution_mode": "real_provider",
+        "freshness": "fresh",
+        "notes": [
+          "Unverified service request; report creation time is not independently observed incident time.",
+          "Source updates daily. Missing coordinates remain unlocated."
+        ]
+      }
+    },
+    {
+      "id": "weather-KNYC-2026-10-09T14:51:00Z",
+      "kind": "weather",
+      "source_id": "nws-knyc",
+      "station_id": "KNYC",
+      "observed_at": "2026-10-09T14:51:00Z",
+      "summary": "Clear",
+      "temperature_c": 17.8,
+      "visibility_m": 16090.0,
+      "precipitation_last_hour_m": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98,
+          40.77
+        ]
+      },
+      "provenance": {
+        "source_url": "https://api.weather.gov/stations/KNYC/observations/latest",
+        "captured_at": "2026-10-09T14:51:00Z",
+        "processed_at": "2026-10-09T16:12:53.894098Z",
+        "data_origin": "public_sensor",
+        "execution_mode": "real_provider",
+        "freshness": "fresh",
+        "notes": [
+          "Central Park station observation; not a measurement at each camera or archive location."
+        ]
+      }
+    }
+  ]
+}
