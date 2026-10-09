@@ -1,5 +1,7 @@
 """Conservative image-space association over timestamped detections only."""
 from collections import defaultdict
+import hashlib
+import json
 
 
 def _iou(a, b):
@@ -11,24 +13,37 @@ def _iou(a, b):
 
 def associate(detections, *, max_gap_sec=1.0, minimum_iou=0.3):
     """Return tracks with at least two distinct timestamps. Never infer physical speed."""
+    for detection in detections:
+        if detection.get('track_id') is not None and detection.get('upstream_track_id') is None:
+            detection['upstream_track_id'] = str(detection['track_id'])
+        detection['track_id'] = None
     if len({d["timestamp_sec"] for d in detections}) < 2:
         return [], "unavailable: at least two timestamped detection frames are required"
     upstream = defaultdict(list)
     unassigned = []
     for d in sorted(detections, key=lambda d: (d["timestamp_sec"], d["id"])):
-        if d.get("track_id") is not None:
-            upstream[str(d["track_id"])].append(d)
+        if d.get("upstream_track_id") is not None:
+            upstream[(d['evidence_id'], str(d['upstream_track_id']))].append(d)
         else:
             unassigned.append(d)
-    tracks = [{"id": "upstream-" + key, "detection_ids": [d["id"] for d in group], "method": "upstream stable track identifier", "source": "upstream", "calibrated": False}
-              for key, group in upstream.items() if len({d["timestamp_sec"] for d in group}) > 1]
+    tracks = []
+    for (evidence_id, source_id), group in upstream.items():
+        if len({d['timestamp_sec'] for d in group}) < 2:
+            continue
+        encoded = json.dumps([evidence_id, source_id], separators=(',', ':')).encode()
+        track_id = 'upstream-' + hashlib.sha256(encoded).hexdigest()[:16]
+        for detection in group:
+            detection['track_id'] = track_id
+        tracks.append({'id': track_id, 'detection_ids': [d['id'] for d in group],
+                       'method': 'upstream stable track identifier', 'source': 'upstream', 'calibrated': False,
+                       'evidence_id': evidence_id, 'upstream_track_id': source_id})
     groups = []
     for d in unassigned:
         candidates = []
         for index, group in enumerate(groups):
             last = group[-1]
             dt = d["timestamp_sec"] - last["timestamp_sec"]
-            if 0 < dt <= max_gap_sec and d["class_name"] == last["class_name"] and d["bbox_units"] == last["bbox_units"]:
+            if 0 < dt <= max_gap_sec and d['evidence_id'] == last['evidence_id'] and d["class_name"] == last["class_name"] and d["bbox_units"] == last["bbox_units"]:
                 overlap = _iou(d["bbox"], last["bbox"])
                 if overlap >= minimum_iou:
                     candidates.append((overlap, index))

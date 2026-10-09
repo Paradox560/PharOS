@@ -149,13 +149,13 @@ class TrackingTests(unittest.TestCase):
         self.assertIn("unavailable", availability["tracking"])
 
     def test_one_frame_detections_not_tracking(self):
-        ds, ts, availability = normalize_detections({"frames": [{"timestamp_sec": 0, "detections": [{"class_name": "car", "confidence": .9, "bbox": [.1, .1, .3, .4]}]}]}, "e", 10)
+        ds, ts, availability = normalize_detections({"frames": [{"timestamp_sec": 0, "detections": [{"class_name": "car", "confidence": .9, "bbox": [.1, .1, .3, .4], "bbox_units": "normalized"}]}]}, "e", 10)
         self.assertEqual(len(ds), 1)
         self.assertEqual(ds[0]["timestamp_sec"], 10)
         self.assertEqual(ts, [])
 
     def test_temporal_iou_tracks_explicit_application_source(self):
-        frames = [{"timestamp_sec": t, "detections": [{"class_name": "car", "confidence": .9, "bbox": [.1+t*.01, .1, .3+t*.01, .4]}]} for t in [0, .5, 1]]
+        frames = [{"timestamp_sec": t, "detections": [{"class_name": "car", "confidence": .9, "bbox": [.1+t*.01, .1, .3+t*.01, .4], "bbox_units": "normalized"}]} for t in [0, .5, 1]]
         ds, ts, status = normalize_detections({"frames": frames}, "e")
         self.assertEqual(len(ts), 1)
         self.assertEqual(ts[0]["source"], "application")
