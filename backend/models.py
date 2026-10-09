@@ -119,7 +119,7 @@ class Incident(Entity):
     road_id: str | None = None
     evidence_ids: list[str]
     timestamp: str
-    confidence: float = Field(ge=0, le=1)
+    confidence: float | None = Field(None, ge=0, le=1)
     data_origin: Origin
     recommendation: str | None = None
 

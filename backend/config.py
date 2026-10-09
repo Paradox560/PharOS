@@ -34,6 +34,7 @@ class Settings:
     wandb_project: str = field(default_factory=lambda: env('WANDB_PROJECT'))
     wandb_base_url: str = field(default_factory=lambda: env('WANDB_BASE_URL', 'https://api.inference.wandb.ai/v1'))
     wandb_model: str = field(default_factory=lambda: env('WANDB_MODEL'))
+    wandb_weave_enabled: bool = field(default_factory=lambda: flag('WANDB_WEAVE_ENABLED'))
     cosmos3_reason_url: str = field(default_factory=lambda: env('COSMOS3_REASON_URL'))
     cosmos3_reason_model: str = field(default_factory=lambda: env('COSMOS3_REASON_MODEL', 'nvidia/cosmos3-reason'))
     cosmos_embed1_url: str = field(default_factory=lambda: env('COSMOS_EMBED1_URL'))
@@ -52,9 +53,9 @@ class Settings:
     request_timeout_seconds: float = 25.0
     max_concurrent_jobs: int = 2
     job_timeout_seconds: int = 180
+    history_retention_days: int = field(default_factory=lambda: int(env('PHAROS_HISTORY_RETENTION_DAYS', '30')))
     sumo_binary: str = field(default_factory=lambda: env('SUMO_BINARY', 'sumo'))
 
     @property
     def vss_configured(self) -> bool:
         return bool(self.ingress_url and self.username and self.password)
-

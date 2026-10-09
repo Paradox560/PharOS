@@ -13,7 +13,7 @@ FastAPI (Python 3.12), SQLite local state, React/TypeScript/Vite, MapLibre GL JS
 - Detection: id, evidence_id, class_name, confidence, timestamp_sec, bbox [x1,y1,x2,y2], bbox_units (normalized|pixels), track_id|null, model, execution_mode.
 - Track: id, detection_ids[], method, source (upstream|application), calibrated=false. Only valid temporal input supports tracks.
 - Observation: id, evidence_id, road_id|null, kind, summary, confidence, observed_at, factors{}, provenance.
-- Incident: id, title, description, severity (high|medium|low), status (open|acknowledged), camera_id|null, road_id|null, evidence_ids[], timestamp, confidence, data_origin, recommendation|null.
+- Incident: id, title, description, severity (high|medium|low), status (open|acknowledged), camera_id|null, asset_id|null, road_id|null, evidence_ids[], timestamp, confidence|null, data_origin, recommendation|null. Unassessed archive review items use confidence=null and are not confirmed obstructions.
 - RoadSegment: id, name, geometry GeoJSON LineString, length_m, lanes, speed_limit_kph, provenance.
 - RiskCell: id, road_id, score|null, level (high|medium|low|unknown|stale), confidence, coverage, factors[], evidence_ids[], observed_at|null, data_origin. Score is priority, never collision probability.
 - SearchHit: id, asset_id, evidence_id, source_uri, original_video, start_sec, end_sec, summary, score, camera_id|null, location, provenance.

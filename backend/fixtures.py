@@ -43,10 +43,11 @@ def seed(store, roads):
     # Risk inputs are independent scenario assumptions on a genuine network, never archive claims.
     if roads:
         road = roads[min(1, len(roads)-1)]
+        issued_at = utcnow()
         observation = dict(id='demo-scenario-observation', evidence_id='demo-scenario-input', road_id=road['id'],
             kind='obstruction', summary='Synthetic scenario assumption: one lane has reduced capacity.', confidence=.8,
-            observed_at=utcnow(), factors={'obstruction':1.0, 'persistence':.7, 'slowdown':.45, 'severity':.5, 'corroboration':0.0},
-            provenance={**provenance(), 'notes':['Simulation input assumption. Unrelated to any NYC camera or workshop archive observation.']})
+            observed_at=issued_at, factors={'obstruction':1.0, 'persistence':.7, 'slowdown':.45, 'severity':.5, 'corroboration':0.0},
+            provenance={**provenance(), 'captured_at':issued_at, 'processed_at':issued_at, 'notes':['Scenario issued timestamp, not an observation of a real event. Unrelated to any NYC camera or workshop archive footage.']})
         store.put('observations', observation, insert_only=True)
     for agent, message in [('context','Verified camera catalog is separate from archive evidence.'), ('perception','Synthetic illustration loaded; live model evidence awaits workshop connection.'), ('retrieval','Demo uses keyword matching. Semantic search requires VSS.'), ('forecast','Illustrative forecast is available; no live accuracy claim.'), ('simulation','SUMO runs synthetic demand on a versioned road network.'), ('operations','Demo brief is deterministic; W&B requires configured access.')]:
         store.put('activity',dict(id=f'demo-{agent}', agent=agent,status='demo',message=message,timestamp=FIXTURE_TIME,evidence_ids=[],execution_mode='mock',latency_ms=None),insert_only=True)

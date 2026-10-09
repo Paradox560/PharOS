@@ -61,3 +61,7 @@ class Store:
     def close(self):
         with self.lock:
             self.db.close()
+
+    def prune(self, kind, before):
+        with self.lock, self.db:
+            self.db.execute('DELETE FROM entities WHERE kind=? AND updated_at<?', (kind, before))
