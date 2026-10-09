@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import base64
 import gzip
+import hashlib
 import io
 import json
 from pathlib import Path
@@ -39,11 +40,12 @@ def manifests(team: str, pvc: str | None):
     if not re.fullmatch(r'team-[1-9][0-9]*', team):
         raise SystemExit('Use the explicitly assigned team-N namespace.')
     payload, size, files = bundle()
+    code_sha256 = hashlib.sha256(base64.b64decode(payload)).hexdigest()
     metadata = {'name':'pharos','namespace':team,'labels':{'app':'pharos'}}
     configmap = {'apiVersion':'v1','kind':'ConfigMap','metadata':{**metadata,'name':'pharos-code'},'binaryData':{'code.tar.gz':payload}}
     mounts = [{'name':'workspace','mountPath':'/workspace'}, {'name':'runtime','mountPath':'/runtime'}, {'name':'outputs','mountPath':'/data'}]
     volumes = [{'name':'code','configMap':{'name':'pharos-code'}}, {'name':'workspace','emptyDir':{}}, {'name':'runtime','emptyDir':{}}, {'name':'outputs', **({'persistentVolumeClaim':{'claimName':pvc}} if pvc else {'emptyDir':{}})}]
-    deployment = {'apiVersion':'apps/v1','kind':'Deployment','metadata':metadata,'spec':{'replicas':1,'selector':{'matchLabels':{'app':'pharos'}},'template':{'metadata':{'labels':{'app':'pharos'}},'spec':{
+    deployment = {'apiVersion':'apps/v1','kind':'Deployment','metadata':metadata,'spec':{'replicas':1,'selector':{'matchLabels':{'app':'pharos'}},'template':{'metadata':{'labels':{'app':'pharos'},'annotations':{'pharos/code-sha256':code_sha256}},'spec':{
         'initContainers':[
             {'name':'unpack','image':'python:3.12.11-slim','command':['python','-c',"import tarfile; tarfile.open('/bundle/code.tar.gz').extractall('/workspace', filter='data')"], 'volumeMounts':[{'name':'code','mountPath':'/bundle','readOnly':True},mounts[0]]},
             {'name':'build-ui','image':'node:22.18.0-slim','workingDir':'/workspace/frontend','command':['sh','-ec','npm ci --no-audit --no-fund && npm run build -- --base=/app/ && rm -rf node_modules'], 'volumeMounts':[mounts[0]],'resources':{'requests':{'cpu':'250m','memory':'512Mi'},'limits':{'cpu':'2','memory':'2Gi'}}},

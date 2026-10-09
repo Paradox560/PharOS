@@ -99,3 +99,18 @@ def test_invalid_team_is_rejected_before_bundle_creation():
     for invalid in ('../team-8', 'team-0', 'team-8;echo', 'default', 'team-8/app'):
         with pytest.raises(SystemExit):
             manifests(invalid, None)
+
+
+def test_changed_code_triggers_a_new_pod_instead_of_only_updating_configmap(monkeypatch):
+    from scripts import prepare_deploy
+
+    templates = []
+    for source in (b'first application version', b'updated application version'):
+        payload = gzip.compress(source, mtime=0)
+        monkeypatch.setattr(prepare_deploy, 'bundle', lambda: (base64.b64encode(payload).decode(), len(payload), []))
+        documents, _ = manifests('team-8', None)
+        deployment = next(item for item in documents['items'] if item['kind'] == 'Deployment')
+        template = deployment['spec']['template']
+        assert template['metadata']['annotations']['pharos/code-sha256'] == hashlib.sha256(payload).hexdigest()
+        templates.append(template)
+    assert templates[0] != templates[1], 'Kubernetes must rerun init containers when packaged code changes.'

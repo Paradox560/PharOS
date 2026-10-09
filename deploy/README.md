@@ -10,7 +10,7 @@ Prepared for the official no-registry deployment path. **No deployment has been 
 
 This writes `deploy/generated/pharos.json` and `package-report.json` (both ignored by Git). The current package is about 273 KB encoded, below its enforced 900,000-byte ceiling. The ConfigMap contains compressed application source, exact frontend lockfiles, verified catalog sample and a small versioned SUMO network. It excludes credentials, media, node_modules, compiled frontend bundles, discovery screenshots and run outputs.
 
-An unpack init container extracts code to a workspace volume. A Node init container installs the locked frontend dependencies and builds with `--base=/app/`. A Python init container installs pinned API/SUMO dependencies into a runtime volume and verifies `sumo --version`. The runtime serves assets, API, SSE and Range-capable media at internal `/`; nginx strips `/app`. The original VSS `/api/v1` routes are unchanged.
+An unpack init container extracts code to a workspace volume. A Node init container installs the locked frontend dependencies and builds with `--base=/app/`. A Python init container installs pinned API/SUMO dependencies into a runtime volume and verifies `sumo --version`. A source checksum in the pod template triggers replacement and rebuilding when the packaged code changes. The runtime serves assets, API, SSE and Range-capable media at internal `/`; nginx strips `/app`. The original VSS `/api/v1` routes are unchanged.
 
 Required environment capabilities still need verification on the assigned cluster: public images, npm/PyPI egress, compatible Linux SUMO wheels, image pull policy, namespace quotas, and storage access. The manifest intentionally fails initialization if runtime installation fails rather than substituting fake simulations.
 
@@ -33,10 +33,13 @@ This creates `/tmp/pharos-workshop-secret.json` with mode `0600`, refuses overwr
 After reviewing the exact manifests and confirming Team 8 access/resources:
 
 ```bash
-kubectl --kubeconfig /config/team-8-k8s.yaml -n team-8 apply -f /tmp/pharos-workshop-secret.json
-kubectl --kubeconfig /config/team-8-k8s.yaml -n team-8 apply -f deploy/generated/pharos.json
-kubectl --kubeconfig /config/team-8-k8s.yaml -n team-8 rollout status deployment/pharos --timeout=600s
-kubectl --kubeconfig /config/team-8-k8s.yaml -n team-8 get pods,services,ingresses -l app=pharos
+pharos_kubeconfig=/config/kubeconfig
+if [ ! -f "$pharos_kubeconfig" ]; then pharos_kubeconfig=/config/team-8-k8s.yaml; fi
+test -f "$pharos_kubeconfig" || exit 1
+kubectl --kubeconfig "$pharos_kubeconfig" -n team-8 apply -f /tmp/pharos-workshop-secret.json
+kubectl --kubeconfig "$pharos_kubeconfig" -n team-8 apply -f deploy/generated/pharos.json
+kubectl --kubeconfig "$pharos_kubeconfig" -n team-8 rollout status deployment/pharos --timeout=600s
+kubectl --kubeconfig "$pharos_kubeconfig" -n team-8 get pods,services,ingresses -l app=pharos
 ```
 
 Verify authenticated HTML, `/app/assets/*`, `/app/api/health`, real archive inventory, video HTTP 206 seeking, SSE, and a complete CPU scenario run. Verify the 401 response for unauthenticated archive/media requests. Open the workshop **App** entry to check real ingress behavior. Local tests are not a substitute for these cluster checks.
