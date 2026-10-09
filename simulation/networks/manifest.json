@@ -1,0 +1,66 @@
+{
+  "network_id": "nyc-demo-corridor",
+  "network_version": "osm-2026-10-09-v1",
+  "network_sha256": "6afe85d13e6a0b2eaa65087cb8028542ea12ac89205c6389dae7e91475cf916f",
+  "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+  "original_download_sha256": "4d3f5113c524371596b905ec38c1314872b926ba1f3c08ca253e0a47df9e5369",
+  "reduced_osm_sha256": "0100d8bf00428e39209f6ff5758ba2ca068edd1fbcbcd9c279b3cce998d56f2e",
+  "license": "ODbL-1.0",
+  "attribution": "\u00a9 OpenStreetMap contributors",
+  "retrieved_date": "2026-10-09",
+  "route_edges": [
+    "955261513#2",
+    "955261511",
+    "420598232#0",
+    "420872180#0",
+    "954955253#0",
+    "954955254#0",
+    "954955255",
+    "954955256",
+    "954955257",
+    "420872176#0",
+    "420598230#0",
+    "1434395339#0",
+    "954178925#0",
+    "954178926#0",
+    "1023167223#0",
+    "1051856442",
+    "1027227118#0",
+    "194923808#0",
+    "1328728619#0",
+    "1328728620#0",
+    "420872179#0",
+    "1027227120#0",
+    "1027227121#0",
+    "1027227123#0",
+    "1558957835#0",
+    "1558957842",
+    "438384743"
+  ],
+  "route_length_m": 1005.71,
+  "blockage_edge": "420598230#0",
+  "blockage_road_id": "osm-420598230#0",
+  "route_start_lonlat": [
+    -73.9835031,
+    40.7300634
+  ],
+  "route_end_lonlat": [
+    -73.9759825,
+    40.7403908
+  ],
+  "assumptions": [
+    "OpenStreetMap road geometry and one-way direction imported on 2026-10-09; network is a bounded Manhattan extract.",
+    "Northbound 1st Avenue through-route; nearby cross streets are retained in the network but receive no synthetic cross traffic.",
+    "OSM lane and speed tags are retained where present; netconvert defaults and lane connections fill missing attributes.",
+    "Traffic signals are imported/guessed with SUMO static timing, not observed NYC signal plans.",
+    "Passenger cars only; bus-priority restrictions, cyclists, pedestrians, turn demand, parking and real signal coordination are not calibrated.",
+    "Demand is synthetic and this model has not been validated against observed corridor speeds or flows."
+  ],
+  "validation": {
+    "contiguous_route": true,
+    "passenger_lane_connections": true,
+    "edge_count": 27,
+    "network_edges": 203,
+    "oneway_direction": "northbound"
+  }
+}

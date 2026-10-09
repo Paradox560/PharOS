@@ -1,0 +1,1042 @@
+[
+  {
+    "id": "osm-955261513#2",
+    "name": "1st Avenue \u00b7 OSM 955261513#2",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9835031,
+          40.7300634
+        ],
+        [
+          -73.9834979,
+          40.7300705
+        ],
+        [
+          -73.9832069,
+          40.7304652
+        ],
+        [
+          -73.9831022,
+          40.7306027
+        ],
+        [
+          -73.9830974,
+          40.7306092
+        ]
+      ]
+    },
+    "length_m": 69.6,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174298Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-955261511",
+    "name": "1st Avenue \u00b7 OSM 955261511",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9830324,
+          40.7306978
+        ],
+        [
+          -73.9830213,
+          40.7307133
+        ],
+        [
+          -73.9828398,
+          40.7309694
+        ]
+      ]
+    },
+    "length_m": 34.27,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174384Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-420598232#0",
+    "name": "1st Avenue \u00b7 OSM 420598232#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9827948,
+          40.7310329
+        ],
+        [
+          -73.9826276,
+          40.7312688
+        ]
+      ]
+    },
+    "length_m": 29.75,
+    "lanes": 5,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174390Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-420872180#0",
+    "name": "1st Avenue \u00b7 OSM 420872180#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9825142,
+          40.7314108
+        ],
+        [
+          -73.9825076,
+          40.731419
+        ],
+        [
+          -73.9822189,
+          40.7318152
+        ]
+      ]
+    },
+    "length_m": 51.36,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174397Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-954955253#0",
+    "name": "1st Avenue \u00b7 OSM 954955253#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9821726,
+          40.731878
+        ],
+        [
+          -73.9821542,
+          40.7319026
+        ],
+        [
+          -73.9820988,
+          40.7319775
+        ],
+        [
+          -73.9820936,
+          40.7319845
+        ]
+      ]
+    },
+    "length_m": 13.57,
+    "lanes": 5,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174405Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-954955254#0",
+    "name": "1st Avenue \u00b7 OSM 954955254#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9820289,
+          40.732073
+        ],
+        [
+          -73.9820133,
+          40.7320945
+        ],
+        [
+          -73.9818678,
+          40.7322956
+        ]
+      ]
+    },
+    "length_m": 28.21,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174411Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-954955255",
+    "name": "1st Avenue \u00b7 OSM 954955255",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.981822,
+          40.7323587
+        ],
+        [
+          -73.9816425,
+          40.7326064
+        ],
+        [
+          -73.9816356,
+          40.732616
+        ]
+      ]
+    },
+    "length_m": 32.61,
+    "lanes": 5,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174417Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-954955256",
+    "name": "1st Avenue \u00b7 OSM 954955256",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9815664,
+          40.732709
+        ],
+        [
+          -73.9815526,
+          40.7327271
+        ],
+        [
+          -73.9814608,
+          40.7328512
+        ],
+        [
+          -73.9814321,
+          40.7328903
+        ]
+      ]
+    },
+    "length_m": 23.1,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174425Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-954955257",
+    "name": "1st Avenue \u00b7 OSM 954955257",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9813855,
+          40.7329529
+        ],
+        [
+          -73.9812988,
+          40.7330667
+        ]
+      ]
+    },
+    "length_m": 14.59,
+    "lanes": 5,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174429Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-420872176#0",
+    "name": "1st Avenue \u00b7 OSM 420872176#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9812971,
+          40.733069
+        ],
+        [
+          -73.9811985,
+          40.7331981
+        ],
+        [
+          -73.9811867,
+          40.733214
+        ]
+      ]
+    },
+    "length_m": 18.61,
+    "lanes": 5,
+    "speed_limit_kph": 100.01,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174435Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-420598230#0",
+    "name": "1st Avenue \u00b7 OSM 420598230#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9811211,
+          40.7333024
+        ],
+        [
+          -73.9811157,
+          40.7333096
+        ],
+        [
+          -73.9809059,
+          40.7335959
+        ],
+        [
+          -73.9807843,
+          40.7337608
+        ],
+        [
+          -73.9807735,
+          40.7337759
+        ]
+      ]
+    },
+    "length_m": 60.21,
+    "lanes": 4,
+    "speed_limit_kph": 100.01,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174444Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1434395339#0",
+    "name": "1st Avenue \u00b7 OSM 1434395339#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9807029,
+          40.7338778
+        ],
+        [
+          -73.9807003,
+          40.7338816
+        ],
+        [
+          -73.9804647,
+          40.7342172
+        ]
+      ]
+    },
+    "length_m": 42.71,
+    "lanes": 4,
+    "speed_limit_kph": 100.01,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174450Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-954178925#0",
+    "name": "1st Avenue \u00b7 OSM 954178925#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.980419,
+          40.7342796
+        ],
+        [
+          -73.9803486,
+          40.7343719
+        ],
+        [
+          -73.9803422,
+          40.7343803
+        ]
+      ]
+    },
+    "length_m": 12.92,
+    "lanes": 5,
+    "speed_limit_kph": 100.01,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174456Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-954178926#0",
+    "name": "1st Avenue \u00b7 OSM 954178926#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9802759,
+          40.73447
+        ],
+        [
+          -73.9802658,
+          40.7344841
+        ],
+        [
+          -73.979976,
+          40.7348899
+        ],
+        [
+          -73.979943,
+          40.7349363
+        ],
+        [
+          -73.979933,
+          40.7349508
+        ]
+      ]
+    },
+    "length_m": 60.72,
+    "lanes": 4,
+    "speed_limit_kph": 100.01,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174470Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1023167223#0",
+    "name": "1st Avenue \u00b7 OSM 1023167223#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9798363,
+          40.735091
+        ],
+        [
+          -73.9796894,
+          40.735293
+        ],
+        [
+          -73.9796842,
+          40.7352998
+        ]
+      ]
+    },
+    "length_m": 26.5,
+    "lanes": 5,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174476Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1051856442",
+    "name": "1st Avenue \u00b7 OSM 1051856442",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9796369,
+          40.7353621
+        ],
+        [
+          -73.9796276,
+          40.7353746
+        ]
+      ]
+    },
+    "length_m": 1.6,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174481Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1027227118#0",
+    "name": "1st Avenue \u00b7 OSM 1027227118#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9795807,
+          40.7354372
+        ],
+        [
+          -73.979497,
+          40.7355483
+        ],
+        [
+          -73.9794859,
+          40.7355628
+        ]
+      ]
+    },
+    "length_m": 16.08,
+    "lanes": 5,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174487Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-194923808#0",
+    "name": "1st Avenue \u00b7 OSM 194923808#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9794196,
+          40.7356494
+        ],
+        [
+          -73.979412,
+          40.7356594
+        ],
+        [
+          -73.9791691,
+          40.7359997
+        ]
+      ]
+    },
+    "length_m": 44.27,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174493Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1328728619#0",
+    "name": "1st Avenue \u00b7 OSM 1328728619#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9791239,
+          40.736063
+        ],
+        [
+          -73.9790613,
+          40.7361506
+        ]
+      ]
+    },
+    "length_m": 11.08,
+    "lanes": 3,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174497Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1328728620#0",
+    "name": "1st Avenue \u00b7 OSM 1328728620#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9789777,
+          40.7363026
+        ],
+        [
+          -73.9789407,
+          40.736352
+        ]
+      ]
+    },
+    "length_m": 6.31,
+    "lanes": 3,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174502Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-420872179#0",
+    "name": "1st Avenue \u00b7 OSM 420872179#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9788942,
+          40.7364147
+        ],
+        [
+          -73.9786175,
+          40.7367886
+        ]
+      ]
+    },
+    "length_m": 47.63,
+    "lanes": 5,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174507Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1027227120#0",
+    "name": "1st Avenue \u00b7 OSM 1027227120#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9784636,
+          40.737002
+        ],
+        [
+          -73.9783055,
+          40.737219
+        ],
+        [
+          -73.9782616,
+          40.7372764
+        ],
+        [
+          -73.9781253,
+          40.7374551
+        ],
+        [
+          -73.9780958,
+          40.7374938
+        ],
+        [
+          -73.9780753,
+          40.7375223
+        ]
+      ]
+    },
+    "length_m": 66.42,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174517Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1027227121#0",
+    "name": "1st Avenue \u00b7 OSM 1027227121#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9780217,
+          40.7375963
+        ],
+        [
+          -73.9780069,
+          40.7376167
+        ],
+        [
+          -73.9777424,
+          40.7379802
+        ],
+        [
+          -73.9776974,
+          40.7380421
+        ],
+        [
+          -73.9776726,
+          40.7380765
+        ],
+        [
+          -73.9776482,
+          40.7381101
+        ]
+      ]
+    },
+    "length_m": 65.18,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174527Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1027227123#0",
+    "name": "1st Avenue \u00b7 OSM 1027227123#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9775472,
+          40.7382489
+        ],
+        [
+          -73.9772718,
+          40.7386263
+        ],
+        [
+          -73.977218,
+          40.7387002
+        ],
+        [
+          -73.9771921,
+          40.7387358
+        ],
+        [
+          -73.9771898,
+          40.7387389
+        ]
+      ]
+    },
+    "length_m": 62.21,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174536Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1558957835#0",
+    "name": "1st Avenue \u00b7 OSM 1558957835#0",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9771069,
+          40.7388523
+        ],
+        [
+          -73.9770997,
+          40.7388621
+        ],
+        [
+          -73.9770692,
+          40.7389039
+        ],
+        [
+          -73.976767,
+          40.7393183
+        ],
+        [
+          -73.976737,
+          40.7393594
+        ],
+        [
+          -73.9767217,
+          40.7393802
+        ],
+        [
+          -73.9766743,
+          40.7394452
+        ],
+        [
+          -73.9766575,
+          40.7394684
+        ],
+        [
+          -73.9765169,
+          40.7396625
+        ]
+      ]
+    },
+    "length_m": 102.81,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174551Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-1558957842",
+    "name": "1st Avenue \u00b7 OSM 1558957842",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9765152,
+          40.7396649
+        ],
+        [
+          -73.976478,
+          40.7397162
+        ],
+        [
+          -73.9763656,
+          40.7398734
+        ],
+        [
+          -73.9762871,
+          40.7399802
+        ],
+        [
+          -73.9762787,
+          40.7399921
+        ]
+      ]
+    },
+    "length_m": 41.45,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174560Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  },
+  {
+    "id": "osm-438384743",
+    "name": "1st Avenue \u00b7 OSM 438384743",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -73.9761108,
+          40.740219
+        ],
+        [
+          -73.9759825,
+          40.7403908
+        ]
+      ]
+    },
+    "length_m": 21.94,
+    "lanes": 4,
+    "speed_limit_kph": 40.25,
+    "provenance": {
+      "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.986,40.730,-73.976,40.741",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:14:48.174565Z",
+      "data_origin": "public_sensor",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "notes": [
+        "Static OpenStreetMap road geometry, not a traffic sensor measurement. \u00a9 OpenStreetMap contributors, ODbL 1.0.",
+        "Lane connectivity and missing attributes are SUMO import assumptions."
+      ]
+    }
+  }
+]
