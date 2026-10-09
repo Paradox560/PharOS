@@ -17,8 +17,7 @@ import {
   Search,
   Settings2,
   ShieldCheck,
-  SlidersHorizontal,
-  Sparkles,
+  FileText,
   X,
 } from "lucide-react";
 import type {
@@ -114,9 +113,32 @@ export default function App() {
   );
   const providerDialog = useRef<HTMLDialogElement>(null);
   const searchInput = useRef<HTMLInputElement>(null);
+  const inspectorHeading = useRef<HTMLHeadingElement>(null);
+  const inspectorScroll = useRef<HTMLDivElement>(null);
   const [mobileView, setMobileView] = useState<"sources" | "map" | "details">(
     "map",
   );
+
+  useEffect(() => {
+    const keyboard = (event: KeyboardEvent) => {
+      if (["Tab", "Enter", " ", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key))
+        document.documentElement.dataset.input = "keyboard";
+    };
+    const pointer = () => { document.documentElement.dataset.input = "pointer"; };
+    window.addEventListener("keydown", keyboard, true);
+    window.addEventListener("pointerdown", pointer, true);
+    return () => { window.removeEventListener("keydown", keyboard, true); window.removeEventListener("pointerdown", pointer, true); };
+  }, []);
+  useEffect(() => {
+    if (mobileView === "details" && window.matchMedia("(max-width: 1000px)").matches)
+      {
+        const heading = inspectorScroll.current?.querySelector<HTMLHeadingElement>("h2");
+        if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
+        else inspectorHeading.current?.focus({ preventScroll: true });
+      }
+  }, [mobileView, panel]);
+
+  useEffect(() => { inspectorScroll.current?.scrollTo({ top: 0, behavior: "instant" }); }, [panel, assetId, cameraId]);
 
   const loadOverview = useCallback(async () => {
     setGlobalError(null);
@@ -280,6 +302,7 @@ export default function App() {
     [overview?.cameras, borough, corridor, cameraQuery],
   );
   const focusPoints = useMemo<[number, number][]>(() => {
+    if (panel === "forecast") return overview?.roads.find((road) => road.id === roadId)?.geometry.coordinates.map((point) => [point[0], point[1]] as [number, number]) || [];
     if (workspace === "scenario")
       return (overview?.roads || []).flatMap((road) =>
         road.geometry.coordinates.map(
@@ -297,6 +320,8 @@ export default function App() {
       .map((camera) => [camera.lon!, camera.lat!]);
   }, [
     workspace,
+    panel,
+    roadId,
     overview?.roads,
     bundle?.asset,
     selectedCamera,
@@ -364,6 +389,8 @@ export default function App() {
   const chooseWorkspace = (next: Workspace) => {
     setWorkspace(next);
     if (next === "archive") {
+      setPanel("evidence");
+      setCameraId(null);
       setSourceTab("sources");
       void loadArchive();
     }
@@ -593,6 +620,7 @@ export default function App() {
             setWorkspace("context");
             setSourceTab("incidents");
             setPanel("evidence");
+            setMobileView("map");
           }}
         >
           <span />
@@ -600,30 +628,34 @@ export default function App() {
         <div className="rail-links">
           <button
             className={
-              workspace === "context" && sourceTab !== "search" ? "active" : ""
+              workspace === "context" && sourceTab !== "search" && panel === "evidence" ? "active" : ""
             }
+            aria-current={workspace === "context" && sourceTab !== "search" && panel === "evidence" ? "page" : undefined}
             aria-label="City operations"
             title="City operations"
             onClick={() => {
               setWorkspace("context");
               setSourceTab("incidents");
+              setPanel("evidence");
               setMobileView("map");
             }}
           >
-            <Layers3 size={21} />
+            <Layers3 size={21} /><span>Overview</span>
           </button>
           <button
             className={
-              workspace === "archive" && sourceTab !== "search" ? "active" : ""
+              workspace === "archive" && sourceTab !== "search" && panel === "evidence" ? "active" : ""
             }
+            aria-current={workspace === "archive" && sourceTab !== "search" && panel === "evidence" ? "page" : undefined}
             aria-label="Footage archive"
             title="Footage archive"
-            onClick={() => chooseWorkspace("archive")}
+            onClick={() => { chooseWorkspace("archive"); setMobileView("sources"); }}
           >
-            <FileVideo2 size={20} />
+            <FileVideo2 size={20} /><span>Footage</span>
           </button>
           <button
             className={sourceTab === "search" ? "active" : ""}
+            aria-current={sourceTab === "search" ? "page" : undefined}
             aria-label="Search footage"
             title="Search footage"
             onClick={() => {
@@ -632,22 +664,25 @@ export default function App() {
               searchInput.current?.focus();
             }}
           >
-            <Search size={20} />
+            <Search size={20} /><span>Search</span>
           </button>
           <span className="rail-divider" />
           <button
             className={panel === "forecast" ? "active" : ""}
+            aria-current={panel === "forecast" ? "page" : undefined}
             aria-label="Traffic forecasts"
             title="Traffic forecasts"
             onClick={() => {
               setPanel("forecast");
+              setWorkspace("context");
               setMobileView("details");
             }}
           >
-            <ChartNoAxesCombined size={21} />
+            <ChartNoAxesCombined size={21} /><span>Forecast</span>
           </button>
           <button
             className={panel === "scenario" ? "active" : ""}
+            aria-current={panel === "scenario" ? "page" : undefined}
             aria-label="Scenario lab"
             title="Scenario lab"
             onClick={() => {
@@ -655,7 +690,7 @@ export default function App() {
               setMobileView("details");
             }}
           >
-            <FlaskConical size={21} />
+            <FlaskConical size={21} /><span>Simulate</span>
           </button>
         </div>
         <div className="rail-bottom">
@@ -664,7 +699,7 @@ export default function App() {
             title="Connection details and preferences"
             onClick={() => setProviderOpen(true)}
           >
-            <Settings2 size={19} />
+            <Settings2 size={19} /><span>Settings</span>
           </button>
           <div className="operator-avatar" title="Local operator">
             OP
@@ -676,7 +711,7 @@ export default function App() {
           <div className="wordmark">
             phar<span>OS</span>
             <span className="wordmark-divider" />
-            <span className="product-name">CITY OPERATIONS</span>
+            <span className="product-name">ROAD OPERATIONS</span>
           </div>
           <form
             className="global-search"
@@ -691,20 +726,20 @@ export default function App() {
               ref={searchInput}
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              placeholder="Find a moment in your footage…"
+              placeholder="Search footage by what happened"
               aria-label="Search archive footage"
             />
-            <kbd>
-              <Command size={10} /> K
-            </kbd>
+            <kbd><Command size={10} /> K</kbd>
+            <button className="search-submit" type="submit" aria-label="Submit footage search" disabled={!searchQuery.trim() || searchLoading}><ArrowRight size={16} /></button>
           </form>
           <button
             className="connection-button"
+            aria-label="Workspace connections"
             onClick={() => setProviderOpen(true)}
           >
             <i className={`dot ${readyProviders ? "lime" : "amber"}`} />
             <span>
-              {overview?.mode === "demo" ? "Demo workspace" : "Provider status"}
+              {overview?.mode === "demo" ? "Demo workspace" : "Connections"}
             </span>
             <ChevronRight size={13} />
           </button>
@@ -712,15 +747,15 @@ export default function App() {
         <div className="workspace-header">
           <div>
             <div className="breadcrumb">
-              WORKSPACE <ChevronRight size={10} /> NYC / ROAD OPERATIONS
+              <span className="beacon-mark" /> FIELD DESK <span className="breadcrumb-separator">/</span> {workspace === "scenario" ? "FIRST AVENUE" : workspace === "archive" ? "FOOTAGE LIBRARY" : "NEW YORK CITY"}
             </div>
             <h1>
-              A clearer view of what’s ahead<span>.</span>
+              {panel === "forecast" ? "Traffic outlook" : panel === "scenario" ? "Clearance scenarios" : panel === "brief" ? "Operator brief" : workspace === "archive" ? "Evidence review" : "Road operations"}
             </h1>
           </div>
           <div className="header-actions">
             <div className="last-sync">
-              <span>WORKSPACE REFRESHED</span>
+              <span>Workspace updated</span>
               <strong>
                 {overview ? timestamp(overview.updated_at) : "Connecting…"}
               </strong>
@@ -739,16 +774,17 @@ export default function App() {
           <span>
             <i className="dot amber" />
             {overview?.mode === "demo"
-              ? "DETERMINISTIC DEMO"
-              : "EVIDENCE FIRST"}
+              ? "DEMO"
+              : "SOURCE NOTES"}
           </span>
           <p>
-            {overview?.mode === "demo"
-              ? "Synthetic evidence and scenarios. Public NYC context is a separate dataset. Live model execution is not implied."
-              : "Archive footage, current snapshots and synthetic scenarios retain separate provenance."}
+            <span className="desktop-source-note">{overview?.mode === "demo"
+              ? "Explore with sample footage and simulated traffic. NYC camera locations are real; the demo is separate."
+              : "Recorded footage, public cameras and simulated traffic are separate sources."}</span>
+            <span className="mobile-source-note">{overview?.mode === "demo" ? "Sample footage & traffic. NYC camera locations are real." : "Footage, public cameras & simulations are separate sources."}</span>
           </p>
           <button onClick={() => setProviderOpen(true)}>
-            View connections <ArrowRight size={13} />
+            About this workspace <ArrowRight size={13} />
           </button>
         </div>
         {globalError && (
@@ -764,15 +800,16 @@ export default function App() {
             <button
               key={view}
               className={view === mobileView ? "active" : ""}
+              aria-pressed={view === mobileView}
               onClick={() => setMobileView(view)}
             >
-              {view === "details" ? "Inspector" : humanize(view)}
+              {view === "details" ? "Analysis" : view === "sources" ? "Browse" : "Map"}
             </button>
           ))}
         </div>
         <main
           id="main-workspace"
-          className={`main-workspace mobile-${mobileView}`}
+          className={`main-workspace mobile-${mobileView} ${workspace === "archive" && panel === "evidence" && bundle?.asset.coordinate_precision === "unlocated" ? "unlocated-workspace" : ""}`}
         >
           <aside
             className="source-panel"
@@ -781,30 +818,32 @@ export default function App() {
             <div className="source-heading">
               <h2>
                 {sourceTab === "search"
-                  ? "Find the evidence"
-                  : workspace === "archive"
-                    ? "Footage archive"
-                    : "On your radar"}
+                  ? "Search results"
+                  : sourceTab === "incidents"
+                    ? "Review queue"
+                    : workspace === "archive" ? "Footage library" : "Camera directory"}
               </h2>
-              <span className="small-square">
-                <SlidersHorizontal size={15} />
-              </span>
+              <span className="desk-index">01</span>
             </div>
-            <div className="source-tabs">
+            <p className="source-intro">{sourceTab === "incidents" ? "Choose an item to inspect its evidence." : sourceTab === "search" ? "Describe the moment you want to find." : "Select a source to see what is available."}</p>
+            <div className="source-tabs" aria-label="Browse sources">
               <button
                 className={sourceTab === "incidents" ? "active" : ""}
+                aria-pressed={sourceTab === "incidents"}
                 onClick={() => setSourceTab("incidents")}
               >
-                Incidents <span>{overview?.metrics.open_incidents ?? "—"}</span>
+                Review <span>{overview?.metrics.open_incidents ?? "—"}</span>
               </button>
               <button
                 className={sourceTab === "sources" ? "active" : ""}
+                aria-pressed={sourceTab === "sources"}
                 onClick={() => setSourceTab("sources")}
               >
-                Sources
+                Browse
               </button>
               <button
                 className={sourceTab === "search" ? "active" : ""}
+                aria-pressed={sourceTab === "search"}
                 onClick={() => setSourceTab("search")}
               >
                 Search
@@ -821,7 +860,7 @@ export default function App() {
               ) : sourceTab === "incidents" ? (
                 <>
                   <div className="list-label">
-                    REVIEW QUEUE <span>{overview.incidents.length} items</span>
+                    NEEDS REVIEW <span>{overview.incidents.length} {overview.incidents.length === 1 ? "item" : "items"}</span>
                   </div>
                   {overview.incidents.length ? (
                     overview.incidents.map((incident) => (
@@ -852,7 +891,7 @@ export default function App() {
                           </span>
                         </div>
                         <h3>{incident.title}</h3>
-                        <p>{incident.description}</p>
+                        <p>{incident.data_origin === "synthetic" ? "A sample lane obstruction. Open the clip to review the marked moments." : incident.description}</p>
                         <div className="incident-footer">
                           <OriginBadge value={incident.data_origin} />
                           <span>
@@ -891,6 +930,7 @@ export default function App() {
                   <div className="source-dataset-switch">
                     <button
                       className={workspace !== "archive" ? "active" : ""}
+                      aria-pressed={workspace !== "archive"}
                       onClick={() => setWorkspace("context")}
                     >
                       <CameraIcon size={13} />
@@ -898,6 +938,7 @@ export default function App() {
                     </button>
                     <button
                       className={workspace === "archive" ? "active" : ""}
+                      aria-pressed={workspace === "archive"}
                       onClick={() => {
                         setWorkspace("archive");
                         void loadArchive();
@@ -1166,7 +1207,7 @@ export default function App() {
               layers={layers}
               onLayers={setLayers}
               focusPoints={focusPoints}
-              focusKey={`${workspace}:${cameraId}:${workspace === "archive" ? bundle?.asset.id : ""}:${workspace === "scenario" ? roadId : ""}:${borough}:${corridor}`}
+              focusKey={`${workspace}:${panel}:${roadId}:${cameraId}:${workspace === "archive" ? bundle?.asset.id : ""}:${workspace === "scenario" ? roadId : ""}:${borough}:${corridor}`}
               reducedMotion={reducedMotion}
               onSelect={(kind, id) => {
                 if (kind === "camera") {
@@ -1181,52 +1222,15 @@ export default function App() {
                 }
               }}
             />
-            <div className="workflow-strip">
-              <div className="workflow-title">
-                <span className="eyebrow">OPERATOR WORKFLOW</span>
-                <strong>From a moment to a decision.</strong>
-              </div>
-              <button
-                className={panel === "evidence" ? "active" : ""}
-                onClick={() => {
-                  setPanel("evidence");
-                  setMobileView("details");
-                }}
-              >
-                <span>01</span> Inspect <ChevronRight size={12} />
-              </button>
-              <button
-                className={panel === "forecast" ? "active" : ""}
-                onClick={() => {
-                  setPanel("forecast");
-                  setMobileView("details");
-                }}
-              >
-                <span>02</span> Forecast <ChevronRight size={12} />
-              </button>
-              <button
-                className={panel === "scenario" ? "active" : ""}
-                onClick={() => {
-                  chooseWorkspace("scenario");
-                  setMobileView("details");
-                }}
-              >
-                <span>03</span> Simulate <ChevronRight size={12} />
-              </button>
-              <button
-                className={panel === "brief" ? "active" : ""}
-                onClick={() => {
-                  setPanel("brief");
-                  setMobileView("details");
-                }}
-              >
-                <span>04</span> Review
-              </button>
+            <div className="map-caption">
+              <div><span className="eyebrow">{workspace === "scenario" ? "SCENARIO MAP" : workspace === "archive" ? "FOOTAGE LOCATION" : "CAMERA COVERAGE"}</span>
+                <p>{workspace === "scenario" ? "First Avenue · assumed traffic, actual SUMO replay" : workspace === "archive" ? bundle?.asset.coordinate_precision === "unlocated" ? "This clip has no verified map position." : "Map position follows the source metadata." : `${filteredCameras.length} catalog locations · select a marker for source details`}</p></div>
+              {workspace === "context" && <button className="text-button" onClick={() => { setSourceTab("sources"); setMobileView("sources"); }}>Browse cameras <ArrowRight size={15} /></button>}
             </div>
             <div className="activity-strip">
               <div>
                 <Activity size={14} />
-                <span>AGENT ACTIVITY</span>
+                <span>LATEST ACTIVITY</span>
               </div>
               {overview?.activity[0] ? (
                 <p>
@@ -1244,7 +1248,8 @@ export default function App() {
             </div>
           </div>
           <aside className="inspector-panel" aria-label="Evidence and analysis">
-            <div className="inspector-tabs">
+            <div className="report-heading"><div><span className="eyebrow">ANALYSIS DESK</span><h2 ref={inspectorHeading} tabIndex={-1}>{panel === "evidence" ? "Inspect the evidence" : panel === "forecast" ? "Understand the outlook" : panel === "scenario" ? "Compare the options" : "Prepare a recommendation"}</h2></div><span className="desk-index">{panel === "evidence" ? "01" : panel === "forecast" ? "02" : panel === "scenario" ? "03" : "04"}</span></div>
+            <div className="inspector-tabs" aria-label="Analysis steps">
               {(["evidence", "forecast", "scenario", "brief"] as const).map(
                 (item) => (
                   <button
@@ -1254,20 +1259,21 @@ export default function App() {
                     onClick={() => {
                       setPanel(item);
                       if (item === "scenario") setWorkspace("scenario");
+                      if (item === "forecast") setWorkspace("context");
                     }}
                   >
                     {item === "brief" ? (
                       <>
-                        <Sparkles size={12} /> Brief
+                        <FileText size={12} /> Brief
                       </>
                     ) : (
-                      humanize(item)
+                      item === "evidence" ? "Evidence" : item === "forecast" ? "Forecast" : "Scenario"
                     )}
                   </button>
                 ),
               )}
             </div>
-            <div className="inspector-scroll">
+            <div className="inspector-scroll" ref={inspectorScroll}>
               {panel === "evidence" && (
                 <EvidencePanel
                   bundle={bundle}
@@ -1332,21 +1338,21 @@ export default function App() {
               {panel === "brief" && (
                 <div className="inspector-content">
                   <div className="section-kicker">
-                    <Sparkles size={14} />
-                    OPERATIONS AGENT
+                    <FileText size={14} />
+                    RECOMMENDATION
                   </div>
-                  <h2>A considered next step.</h2>
+                  <h2>Operator brief</h2>
                   <p className="subtitle">
-                    An evidence-linked recommendation for an operator to review.
+                    Turn the selected evidence into a recommendation. Review the sources before acting.
                   </p>
-                  <label className="field">
+                  <details className="report-disclosure"><summary>Customize the question</summary><label className="field">
                     Operator question
                     <textarea
-                      rows={5}
+                      rows={4}
                       value={question}
                       onChange={(event) => setQuestion(event.target.value)}
                     />
-                  </label>
+                  </label></details>
                   <div className="brief-context">
                     <span className="eyebrow">INCLUDED CONTEXT</span>
                     <span>
@@ -1374,7 +1380,7 @@ export default function App() {
                     {answerLoading
                       ? "Preparing brief…"
                       : "Generate operator brief"}
-                    <Sparkles size={15} />
+                    <FileText size={15} />
                   </button>
                   <ErrorMessage error={answerError} />
                   {answerLoading ? (
@@ -1450,7 +1456,7 @@ export default function App() {
             />
             {apiConnected ? "PharOS API connected" : "API unavailable"}
           </span>
-          <span>Archive ≠ current snapshots ≠ simulated outcomes</span>
+          <span>Evidence stays linked to its source</span>
           <button onClick={() => setProviderOpen(true)}>
             {readyProviders} / {overview?.integrations.length || 0} providers
             verified <ChevronRight size={11} />
@@ -1473,6 +1479,7 @@ export default function App() {
       <dialog
         ref={providerDialog}
         className="provider-dialog"
+        aria-labelledby="connections-title"
         onCancel={() => setProviderOpen(false)}
         onClick={(event) => {
           if (event.target === event.currentTarget) setProviderOpen(false);
@@ -1485,7 +1492,7 @@ export default function App() {
                 <Radio size={14} />
                 CONNECTION CENTER
               </div>
-              <h2>Know what’s connected.</h2>
+              <h2 id="connections-title">Connections & preferences</h2>
             </div>
             <button
               className="icon-button"
@@ -1496,8 +1503,7 @@ export default function App() {
             </button>
           </div>
           <p className="subtitle">
-            A configured credential is not proof of a working integration.
-            Diagnostics record actual availability.
+            Availability in this workspace. Run a check to refresh connection status.
           </p>
           <div className="provider-list">
             {overview?.integrations.map((provider) => (
@@ -1603,8 +1609,8 @@ function AssetCard({
         <span className="mono">{timecode(asset.duration_sec)}</span>
       </div>
       <div>
-        <strong>{asset.name}</strong>
-        <span>{asset.location || "Unlocated footage"}</span>
+        <strong>{asset.provenance.data_origin === "synthetic" ? "Lane obstruction · sample clip" : asset.name}</strong>
+        <span>{asset.coordinate_precision === "unlocated" ? "No verified map location" : asset.location || "Unlocated footage"}</span>
         <OriginBadge value={asset.provenance.data_origin} />
       </div>
       <ChevronRight size={13} />
