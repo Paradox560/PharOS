@@ -1,0 +1,138 @@
+{
+  "source_url": "https://webcams.nyctmc.org/cameras-list",
+  "metadata_url": "https://webcams.nyctmc.org/cameras/graphql",
+  "verified_at": "2026-10-09T16:03:31.124108Z",
+  "response_sha256": "d1fd14e65e3eef385f5f510a0f723cb5ecdac118aaa9520c470f01eb0257d298",
+  "catalog_total": 982,
+  "sample_note": "Verified public metadata; source did not supply image capture timestamps. No snapshots were collected.",
+  "cameras": [
+    {
+      "id": "053e8995-f8cb-4d02-a659-70ac7c7da5db",
+      "name": "Broadway @ 45 St",
+      "area": "Manhattan",
+      "latitude": 40.757953,
+      "longitude": -73.98549,
+      "isOnline": true
+    },
+    {
+      "id": "ec9ffb62-e3bf-4352-8bcf-7c9adf5fbe9c",
+      "name": "8th Ave @ 31st St",
+      "area": "Manhattan",
+      "latitude": 40.750297,
+      "longitude": -73.99483,
+      "isOnline": true
+    },
+    {
+      "id": "34674be5-4791-47f1-b0b2-2db0ff619732",
+      "name": "6 Ave @ 39 St",
+      "area": "Manhattan",
+      "latitude": 40.752946,
+      "longitude": -73.98548,
+      "isOnline": true
+    },
+    {
+      "id": "f06979b2-3497-4330-9882-a06c8a442b7c",
+      "name": "6 Ave @ 34 St",
+      "area": "Manhattan",
+      "latitude": 40.749808,
+      "longitude": -73.987746,
+      "isOnline": true
+    },
+    {
+      "id": "5d055599-875a-4010-991f-e7e454889052",
+      "name": "7 Ave @ 40 St",
+      "area": "Manhattan",
+      "latitude": 40.754746,
+      "longitude": -73.987894,
+      "isOnline": true
+    },
+    {
+      "id": "20b2298a-90cf-463f-b172-0b398a34f061",
+      "name": "Park Ave @ 37 St",
+      "area": "Manhattan",
+      "latitude": 40.74906,
+      "longitude": -73.979818,
+      "isOnline": true
+    },
+    {
+      "id": "1e60ade7-c760-48cf-acd9-d9d6cbfa9420",
+      "name": "7 Ave @ 32 St",
+      "area": "Manhattan",
+      "latitude": 40.749508,
+      "longitude": -73.991493,
+      "isOnline": true
+    },
+    {
+      "id": "0dc7c2b4-614d-46a3-9610-3ba09f3f1284",
+      "name": "6 Ave @ 30 St",
+      "area": "Manhattan",
+      "latitude": 40.747287,
+      "longitude": -73.989615,
+      "isOnline": true
+    },
+    {
+      "id": "04ffc69c-92a7-4c02-aa18-2b16e7ba81f2",
+      "name": "FDR Dr @ 36 St",
+      "area": "Manhattan",
+      "latitude": 40.744441,
+      "longitude": -73.971242,
+      "isOnline": true
+    },
+    {
+      "id": "17b6c7dd-2aa7-442a-8832-d39051a47d1b",
+      "name": "Park Ave @ 34 St",
+      "area": "Manhattan",
+      "latitude": 40.747084,
+      "longitude": -73.981357,
+      "isOnline": true
+    },
+    {
+      "id": "09d9335c-097e-47ef-af1d-122eb3206f7c",
+      "name": "Rockefeller Plaza @ W 49 St",
+      "area": "Manhattan",
+      "latitude": 40.75836,
+      "longitude": -73.978867,
+      "isOnline": true
+    },
+    {
+      "id": "301002c0-fe39-4fad-998a-fdc66e531b1d",
+      "name": "Lincoln Tun Approach(Bet 9Ave & 10Ave) @ W31 ST ",
+      "area": "Manhattan",
+      "latitude": 40.752268,
+      "longitude": -73.999448,
+      "isOnline": true
+    },
+    {
+      "id": "5c505897-b475-4359-897d-b064bdb9feef",
+      "name": "8 AVE @ 44 St",
+      "area": "Manhattan",
+      "latitude": 40.75851,
+      "longitude": -73.9888,
+      "isOnline": true
+    },
+    {
+      "id": "1dddf912-4718-4b2a-94dd-1f793a9ed22c",
+      "name": "6 Ave @ 49 St",
+      "area": "Manhattan",
+      "latitude": 40.759281077223,
+      "longitude": -73.9808977882913,
+      "isOnline": true
+    },
+    {
+      "id": "0a49d947-2a5b-498d-a386-2cef5ce883fa",
+      "name": "50 St Btwn\u00a08 Ave & Broadway",
+      "area": "Manhattan",
+      "latitude": 40.761861,
+      "longitude": -73.985123,
+      "isOnline": true
+    },
+    {
+      "id": "1927b469-e2dc-4943-a70c-e6e52fd4c48c",
+      "name": "Broadway @ 46 St- Quad South",
+      "area": "Manhattan",
+      "latitude": 40.758692,
+      "longitude": -73.985371,
+      "isOnline": true
+    }
+  ]
+}
