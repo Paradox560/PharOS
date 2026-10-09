@@ -1,0 +1,705 @@
+{
+  "started_at": "2026-10-09T16:40:46.113128Z",
+  "team": "team-8",
+  "new_pipeline_execution": false,
+  "checks": [
+    {
+      "name": "authenticated_session",
+      "status": "succeeded",
+      "latency_ms": 225.8
+    },
+    {
+      "name": "metadata",
+      "status": "succeeded",
+      "latency_ms": 409
+    },
+    {
+      "name": "normalized_inventory",
+      "status": "succeeded",
+      "latency_ms": 95.3
+    },
+    {
+      "name": "actual_retrieval_adapter_search",
+      "status": "succeeded",
+      "latency_ms": 2362.6
+    },
+    {
+      "name": "actual_evidence_adapter",
+      "status": "succeeded",
+      "latency_ms": 420.6
+    },
+    {
+      "name": "sidecar_schema_sample",
+      "status": "succeeded",
+      "latency_ms": 195.7
+    },
+    {
+      "name": "actual_same_origin_transport",
+      "status": "succeeded",
+      "latency_ms": 11.9
+    },
+    {
+      "name": "actual_operations_agent",
+      "status": "succeeded",
+      "latency_ms": 9459.8
+    },
+    {
+      "name": "index_health",
+      "status": "succeeded",
+      "latency_ms": 613.7
+    }
+  ],
+  "custom_prompt_max_length": 800,
+  "inventory": {
+    "total": 612,
+    "returned": 2,
+    "duration_sec": 30,
+    "coordinate_precision": "unlocated"
+  },
+  "search": {
+    "engine": "VSS hybrid · Cosmos Embed1 + VastDB",
+    "execution_mode": "real_provider",
+    "segments": 3,
+    "chunks": 3
+  },
+  "hit": {
+    "id": "evidence-a0b00ad28ef8fd28",
+    "asset_id": "asset-14b8e8da9cc0c793",
+    "evidence_id": "evidence-a0b00ad28ef8fd28",
+    "source_uri": "s3://team-8-vss-chunks-segments/segments/20261001_055340_scene1_p1c1_chunk_0002_segment_006_of_006.mp4",
+    "original_video": "s3://team-8-vss-chunks/team-8/20261001_055340_scene1_p1c1_chunk_0002.mp4",
+    "start_sec": 25,
+    "end_sec": 30,
+    "summary": "The scene is a multi-lane highway with traffic flowing in both directions. Vehicles are moving steadily, with no signs of congestion or disruption. A variety of vehicles are visible, including passenger cars, SUVs, and large commercial trucks. Some trucks have trailers, and one carries a flatbed load. The road surface is dry and well-maintained, with clear lane markings. No pedestrians, cyclists, or unusual activity are present. The traffic flow remains smooth and uninterrupted throughout the clip.",
+    "reasoning_model": "nvidia/cosmos3-nano-reasoner",
+    "score": 0.4645125508308411,
+    "camera_id": "i24_cam-1",
+    "location": "nashville",
+    "provenance": {
+      "source_url": "s3://team-8-vss-chunks-segments/segments/20261001_055340_scene1_p1c1_chunk_0002_segment_006_of_006.mp4",
+      "captured_at": null,
+      "processed_at": "2026-10-09T16:40:49.205805Z",
+      "data_origin": "archive",
+      "execution_mode": "real_provider",
+      "freshness": "unknown",
+      "reasoning_model": "nvidia/cosmos3-nano-reasoner",
+      "perception_source": null,
+      "notes": [
+        "Indexed historical evidence; retrieval time does not establish capture time or current road conditions."
+      ]
+    }
+  },
+  "evidence": {
+    "reasoning_models": [
+      "nvidia/cosmos3-nano-reasoner"
+    ],
+    "spans": [
+      {
+        "source_uri": "s3://team-8-vss-chunks-segments/segments/20261001_055340_scene1_p1c1_chunk_0002_segment_006_of_006.mp4",
+        "start_sec": 25,
+        "end_sec": 30,
+        "summary": "The scene is a multi-lane highway with traffic flowing in both directions. Vehicles are moving steadily, with no signs of congestion or disruption. A variety of vehicles are visible, including passenger cars, SUVs, and large commercial trucks. Some trucks have trailers, and one carries a flatbed load. The road surface is dry and well-maintained, with clear lane markings. No pedestrians, cyclists, or unusual activity are present. The traffic flow remains smooth and uninterrupted throughout the clip.",
+        "provenance": {
+          "source_url": "s3://team-8-vss-chunks-segments/segments/20261001_055340_scene1_p1c1_chunk_0002_segment_006_of_006.mp4",
+          "captured_at": null,
+          "processed_at": "2026-10-09T16:40:49.375448Z",
+          "data_origin": "archive",
+          "execution_mode": "real_provider",
+          "freshness": "unknown",
+          "reasoning_model": "nvidia/cosmos3-nano-reasoner",
+          "perception_source": "yolo11_coco",
+          "notes": [
+            "Indexed historical evidence; retrieval time does not establish capture time or current road conditions."
+          ]
+        },
+        "id": "evidence-a0b00ad28ef8fd28",
+        "asset_id": "asset-14b8e8da9cc0c793",
+        "reasoning_model": "nvidia/cosmos3-nano-reasoner"
+      }
+    ],
+    "detections": 2138,
+    "tracks": 125,
+    "track_sources": [
+      "application"
+    ],
+    "availability": {
+      "detections": "available",
+      "tracking": "available",
+      "reasoning": "available"
+    },
+    "detection_sample": [
+      {
+        "id": "detection-ab277cbb1aa35623",
+        "evidence_id": "evidence-a0b00ad28ef8fd28",
+        "class_name": "car",
+        "confidence": 0.7349,
+        "timestamp_sec": 25,
+        "bbox": [
+          0.7104166666666667,
+          0.7379629629629629,
+          0.7578125,
+          0.8009259259259259
+        ],
+        "bbox_units": "normalized",
+        "track_id": "image-iou-detection-ab277cbb1aa35623",
+        "model": "yolo11_coco",
+        "execution_mode": "real_provider",
+        "source_bbox": [
+          1364,
+          797,
+          1455,
+          865
+        ],
+        "source_bbox_units": "pixels",
+        "source_frame_width": 1920,
+        "source_frame_height": 1080
+      },
+      {
+        "id": "detection-c07d821e379bee37",
+        "evidence_id": "evidence-a0b00ad28ef8fd28",
+        "class_name": "bus",
+        "confidence": 0.6779,
+        "timestamp_sec": 25,
+        "bbox": [
+          0.7197916666666667,
+          0.5518518518518518,
+          0.8776041666666666,
+          0.7759259259259259
+        ],
+        "bbox_units": "normalized",
+        "track_id": "image-iou-detection-c07d821e379bee37",
+        "model": "yolo11_coco",
+        "execution_mode": "real_provider",
+        "source_bbox": [
+          1382,
+          596,
+          1685,
+          838
+        ],
+        "source_bbox_units": "pixels",
+        "source_frame_width": 1920,
+        "source_frame_height": 1080
+      }
+    ]
+  },
+  "sidecar_sample": {
+    "fps": 30,
+    "video_shape": [
+      1080,
+      1920
+    ],
+    "frame_count": 150,
+    "detection_count": 2138,
+    "segment_source": "s3://team-8-vss-chunks-segments/segments/20261001_055340_scene1_p1c1_chunk_0002_segment_006_of_006.mp4",
+    "frames": [
+      {
+        "frame_index": 0,
+        "time_sec": 0,
+        "shape": [
+          1080,
+          1920
+        ],
+        "detections": [
+          {
+            "label": "car",
+            "confidence": 0.7349,
+            "bbox": [
+              1364,
+              797,
+              1455,
+              865
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.6779,
+            "bbox": [
+              1382,
+              596,
+              1685,
+              838
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.6653,
+            "bbox": [
+              829,
+              819,
+              923,
+              909
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.648,
+            "bbox": [
+              449,
+              322,
+              489,
+              363
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5934,
+            "bbox": [
+              690,
+              201,
+              725,
+              225
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5648,
+            "bbox": [
+              745,
+              457,
+              797,
+              511
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5282,
+            "bbox": [
+              538,
+              243,
+              577,
+              272
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5248,
+            "bbox": [
+              505,
+              291,
+              543,
+              321
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4611,
+            "bbox": [
+              668,
+              367,
+              703,
+              405
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4301,
+            "bbox": [
+              689,
+              523,
+              747,
+              584
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4053,
+            "bbox": [
+              623,
+              412,
+              682,
+              457
+            ]
+          }
+        ]
+      },
+      {
+        "frame_index": 1,
+        "time_sec": 0.0333,
+        "shape": [
+          1080,
+          1920
+        ],
+        "detections": [
+          {
+            "label": "car",
+            "confidence": 0.6457,
+            "bbox": [
+              505,
+              293,
+              542,
+              323
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.6298,
+            "bbox": [
+              1351,
+              786,
+              1445,
+              852
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.6133,
+            "bbox": [
+              449,
+              324,
+              488,
+              365
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.6079,
+            "bbox": [
+              1106,
+              640,
+              1177,
+              700
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5731,
+            "bbox": [
+              685,
+              200,
+              724,
+              223
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5725,
+            "bbox": [
+              834,
+              826,
+              938,
+              923
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5616,
+            "bbox": [
+              538,
+              243,
+              578,
+              274
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5614,
+            "bbox": [
+              745,
+              467,
+              798,
+              516
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5495,
+            "bbox": [
+              691,
+              532,
+              750,
+              588
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.5067,
+            "bbox": [
+              912,
+              277,
+              1022,
+              391
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.465,
+            "bbox": [
+              1034,
+              432,
+              1097,
+              478
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.4531,
+            "bbox": [
+              1374,
+              588,
+              1673,
+              829
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4331,
+            "bbox": [
+              669,
+              370,
+              707,
+              408
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4274,
+            "bbox": [
+              626,
+              416,
+              683,
+              463
+            ]
+          }
+        ]
+      },
+      {
+        "frame_index": 2,
+        "time_sec": 0.0667,
+        "shape": [
+          1080,
+          1920
+        ],
+        "detections": [
+          {
+            "label": "car",
+            "confidence": 0.6946,
+            "bbox": [
+              838,
+              838,
+              936,
+              930
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.6936,
+            "bbox": [
+              1341,
+              775,
+              1433,
+              841
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5816,
+            "bbox": [
+              694,
+              536,
+              758,
+              597
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5473,
+            "bbox": [
+              746,
+              470,
+              807,
+              522
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5446,
+            "bbox": [
+              506,
+              295,
+              546,
+              326
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5325,
+            "bbox": [
+              451,
+              327,
+              490,
+              367
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.5059,
+            "bbox": [
+              686,
+              198,
+              720,
+              223
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.5019,
+            "bbox": [
+              908,
+              275,
+              1017,
+              386
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.4861,
+            "bbox": [
+              1364,
+              583,
+              1661,
+              821
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.474,
+            "bbox": [
+              539,
+              242,
+              579,
+              275
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4661,
+            "bbox": [
+              1099,
+              636,
+              1175,
+              696
+            ]
+          },
+          {
+            "label": "bus",
+            "confidence": 0.4557,
+            "bbox": [
+              512,
+              540,
+              594,
+              678
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4464,
+            "bbox": [
+              671,
+              373,
+              712,
+              411
+            ]
+          },
+          {
+            "label": "car",
+            "confidence": 0.4364,
+            "bbox": [
+              628,
+              419,
+              684,
+              463
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "media": {
+    "status": 206,
+    "bytes": 1024,
+    "content_range": "bytes 0-1023/31931650"
+  },
+  "recommendation": {
+    "answer": "The archived video segment shows smooth, uninterrupted traffic with no visible obstruction on the multi‑lane highway. [evidence-a0b00ad28ef8fd28]\n\nGiven the archive nature of the footage, its capture time is unknown and may not represent current road conditions. [asset-14b8e8da9cc0c793]\n\nRecommend that an operator obtain a recent live feed or on‑site inspection to verify the present state of the roadway before making operational decisions. [evidence-a0b00ad28ef8fd28]",
+    "claims": [
+      {
+        "text": "The archived video segment shows smooth, uninterrupted traffic with no visible obstruction on the multi‑lane highway.",
+        "evidence_ids": [
+          "evidence-a0b00ad28ef8fd28"
+        ]
+      },
+      {
+        "text": "Given the archive nature of the footage, its capture time is unknown and may not represent current road conditions.",
+        "evidence_ids": [
+          "asset-14b8e8da9cc0c793"
+        ]
+      },
+      {
+        "text": "Recommend that an operator obtain a recent live feed or on‑site inspection to verify the present state of the roadway before making operational decisions.",
+        "evidence_ids": [
+          "evidence-a0b00ad28ef8fd28"
+        ]
+      }
+    ],
+    "evidence_ids": [
+      "asset-14b8e8da9cc0c793",
+      "evidence-a0b00ad28ef8fd28"
+    ],
+    "provider": "Weights & Biases Inference",
+    "model": "openai/gpt-oss-120b",
+    "execution_mode": "real_provider",
+    "latency_ms": 9459.7,
+    "notes": [
+      "Operator review required; citation validation verifies registered IDs, not factual entailment.",
+      "Observability: disabled",
+      "The segment covers only the final 5 seconds of a 30‑second clip, limiting the observation window.",
+      "Location metadata is unlocated; the exact geographic coordinates are not provided.",
+      "Archive freshness is unknown; conditions may have changed since the video was recorded."
+    ],
+    "usage": {
+      "prompt_tokens": 1271,
+      "completion_tokens": 366,
+      "total_tokens": 1637,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 64
+      },
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 130,
+        "rejected_prediction_tokens": null
+      }
+    }
+  },
+  "index_health": {
+    "overview": {
+      "total_rows": 3537,
+      "segment_rows": 3537,
+      "other_rows": 0,
+      "unique_videos": 612,
+      "fully_indexed_videos": 612,
+      "indexed_clips": 3537,
+      "re_ingest_rows": 0,
+      "re_ingest_clips": 0,
+      "stream_sessions": 55,
+      "duplicate_segment_slots": 0,
+      "duplicate_segment_rows": 0,
+      "public_segment_rows": 3537,
+      "private_segment_rows": 0
+    },
+    "pipeline_alignment": {
+      "segments_s3_mp4": 3537,
+      "indexed_clips": 3537,
+      "segment_rows": 3537,
+      "pending_index": 0,
+      "re_ingest_excess": 0,
+      "indexed_matches_segments_s3": true,
+      "rows_match_segments_s3": true,
+      "segments_bucket_matches_segmenter": true,
+      "healthy": true
+    }
+  },
+  "status": "passed",
+  "completed_at": "2026-10-09T16:40:59.923721Z"
+}
