@@ -120,6 +120,20 @@ def test_malformed_timing_does_not_create_non_json_values():
     with pytest.raises(ProviderError): normalize_asset(None)
 
 
+def test_live_team8_explore_shape_preserves_parent_duration_and_span():
+    # Schema/values verified from Team8 Explore on 2026-10-09, without credentials.
+    original='s3://team-8-vss-chunks/team-8/20261008_074640_GX050001_chunk_0000.mp4'
+    source='s3://team-8-vss-chunks-segments/segments/20261008_074640_GX050001_chunk_0000_segment_001_of_006.mp4'
+    row=normalize_asset({'original_video':original,'preview_source':source,'chunk_duration_sec':30,
+                         'location':'new_york','camera_id':'nyc_bike_gopro-1','capture_type':'streets',
+                         'total_segments':6,'timeline':[{'segment_number':1,'segment_start_sec':0,'segment_end_sec':5,'source':source}]})
+    assert row['duration_sec']==30
+    assert row['timeline'][0]['segment_end_sec']==5
+    assert row['source_uri']==source and row['original_video']==original
+    assert row['lat'] is None and row['coordinate_precision']=='unlocated'
+    assert row['location']=='new_york'
+
+
 def test_reingest_preserves_metadata_exactly_and_deduplicates():
     client=Client(); adapter=ReingestionAdapter(client)
     async def scenario():

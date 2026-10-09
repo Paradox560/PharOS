@@ -30,13 +30,13 @@ def normalize_asset(row: dict) -> dict:
             lat = lon = None
     except (ValueError, TypeError):
         lat = lon = None
-    duration = row.get('duration_sec', row.get('duration', row.get('total_duration')))
+    duration = row.get('duration_sec', row.get('chunk_duration_sec', row.get('duration', row.get('total_duration'))))
     if duration is None:
         values = []
         for item in timeline:
             if isinstance(item, dict):
                 try:
-                    value = float(item.get('end_sec', item.get('end_time', 0)) or 0)
+                    value = float(item.get('end_sec', item.get('segment_end_sec', item.get('end_time', 0))) or 0)
                     if math.isfinite(value):
                         values.append(value)
                 except (TypeError, ValueError):
@@ -62,6 +62,7 @@ def normalize_asset(row: dict) -> dict:
         'capability': 'indexed_archive', 'timeline': timeline,
         'upstream_metadata': {key:field(key) for key in ('camera_id', 'capture_type', 'location', 'stream_id', 'chunk_index')},
         'indexed_segment_count': len(timeline), 'verified_indexed': True,
+        'cosmos_model': row.get('cosmos_model'),
         'provenance': {'source_url': original, 'captured_at': field('captured_at'),
                        'processed_at': now, 'data_origin': 'archive', 'execution_mode': 'real_provider',
                        'freshness': 'unknown', 'notes': ['Indexed archive; retrieval time is not footage capture time.',
