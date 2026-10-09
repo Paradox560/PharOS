@@ -4,6 +4,11 @@ Verified on **2026-10-09**. The local application is ready for review. Team 8's
 existing archive and W&B adapters were exercised successfully inside the assigned
 VM. A fresh DataEngine run and a workshop `/app` deployment are **not verified**.
 
+The subsequent [design refinement](DESIGN_REVIEW.md) passes **12 frontend tests**,
+the complete browser workflow and seven focused accessibility checks. It includes
+a [54-second updated recording](demo/pharos-design-demo.webm). The tables below
+retain the original build verification; no backend provider behavior changed.
+
 ## Automated and browser checks
 
 | Check | Observed result |

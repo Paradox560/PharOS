@@ -8,7 +8,7 @@ Prepared for the official no-registry deployment path. **No deployment has been 
 .venv/bin/python scripts/prepare_deploy.py --team team-8
 ```
 
-This writes `deploy/generated/pharos.json` and `package-report.json` (both ignored by Git). The current package is about 273 KB encoded, below its enforced 900,000-byte ceiling. The ConfigMap contains compressed application source, exact frontend lockfiles, verified catalog sample and a small versioned SUMO network. It excludes credentials, media, node_modules, compiled frontend bundles, discovery screenshots and run outputs.
+This writes `deploy/generated/pharos.json` and `package-report.json` (both ignored by Git). The current package is about 292 KB encoded, below its enforced 900,000-byte ceiling. The ConfigMap contains compressed application source, exact frontend lockfiles, verified catalog sample and a small versioned SUMO network. It excludes credentials, media, node_modules, compiled frontend bundles, discovery screenshots and run outputs.
 
 An unpack init container extracts code to a workspace volume. A Node init container installs the locked frontend dependencies and builds with `--base=/app/`. A Python init container installs pinned API/SUMO dependencies into a runtime volume and verifies `sumo --version`. A source checksum in the pod template triggers replacement and rebuilding when the packaged code changes. The runtime serves assets, API, SSE and Range-capable media at internal `/`; nginx strips `/app`. The original VSS `/api/v1` routes are unchanged.
 

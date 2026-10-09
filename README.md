@@ -2,9 +2,9 @@
 
 A road-operations intelligence console for reviewing footage, searching evidence, exploring traffic forecasts, and comparing obstruction-clearance scenarios. Built for the VAST Builders Challenge, with an NYC context map and an explicitly separate licensed archive.
 
-![PharOS running locally with 3D map and labeled synthetic evidence](docs/screenshots/01-console.png)
+![PharOS running locally with 3D map and labeled synthetic evidence](docs/screenshots/design-console.png)
 
-The local demo is working; Team 8's actual archive and W&B adapters passed verification. Watch the [39-second demo](docs/demo/pharos-local-demo.webm) or see the [verification report](docs/VERIFICATION.md) for measured results and the remaining fresh-pipeline/deployment requirements.
+The [design refinement](docs/DESIGN_REVIEW.md) adds a readable evidence report, labeled navigation, and clearer scenario comparisons. The local demo is working; Team 8's actual archive and W&B adapters passed verification. Watch the [54-second demo](docs/demo/pharos-design-demo.webm) or see the [verification report](docs/VERIFICATION.md) for measured results and the remaining fresh-pipeline/deployment requirements.
 
 ## Run locally
 
