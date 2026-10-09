@@ -26,6 +26,8 @@ def provenance(row, source=None):
         "captured_at": row.get("captured_at") or row.get("capture_timestamp") or None,
         "processed_at": row.get("processed_at") or utcnow(),
         "data_origin": "archive", "execution_mode": "real_provider", "freshness": "unknown",
+        "reasoning_model": row.get("cosmos_model"),
+        "perception_source": row.get("perception_source"),
         "notes": ["Indexed historical evidence; retrieval time does not establish capture time or current road conditions."],
     }
 
@@ -47,6 +49,7 @@ def normalize_hit(row):
         "source_uri": source, "original_video": original,
         "start_sec": start, "end_sec": end,
         "summary": row.get("reasoning_content") or row.get("summary") or row.get("caption") or "No indexed description available.",
+        "reasoning_model": row.get("cosmos_model"),
         "score": number(row.get("similarity_score", row.get("score", 0))),
         "camera_id": row.get("camera_id"), "location": row.get("location") or "Unlocated archive evidence",
         "provenance": provenance(row, source),

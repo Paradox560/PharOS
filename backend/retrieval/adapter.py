@@ -53,6 +53,7 @@ class RetrievalAdapter:
         if not segments:
             return {"asset": asset, "evidence": [], "detections": [], "tracks": [], "reasoning": "No segment source is available for inspection.", "availability": {"detections": "unavailable", "tracking": "unavailable", "reasoning": "unavailable"}, "provenance": asset.get("provenance", provenance(asset))}
         evidence, detections, tracks, reasons, status = [], [], [], [], []
+        reasoning_models = set()
         for segment in segments:
             uri = segment.get("source") or segment.get("source_uri") or segment.get("preview_source")
             metadata = await self.client.request("GET", "/videos/metadata", params={"source": uri})
@@ -61,6 +62,9 @@ class RetrievalAdapter:
             hit = normalize_hit(row)
             span = {k: hit[k] for k in ("source_uri", "start_sec", "end_sec", "summary", "provenance")}
             span.update(id=hit["evidence_id"], asset_id=asset["id"])
+            if hit.get('reasoning_model'):
+                span['reasoning_model'] = hit['reasoning_model']
+                reasoning_models.add(hit['reasoning_model'])
             evidence.append(span)
             reasons.append(span["summary"])
             try:
@@ -74,7 +78,7 @@ class RetrievalAdapter:
                     raise
                 status.append({"detections": "unavailable: no YOLO sidecar for this segment", "tracking": "unavailable: temporal detections absent"})
         return {"asset": asset, "evidence": evidence, "detections": detections, "tracks": tracks,
-                "reasoning": "\n\n".join(reasons), "availability": {
+                "reasoning": "\n\n".join(reasons), "reasoning_models": sorted(reasoning_models), "availability": {
                     "detections": "available" if detections else status[0]["detections"],
                     "tracking": "available" if tracks else status[0]["tracking"],
                     "reasoning": "available" if any(r != "No indexed description available." for r in reasons) else "unavailable"},
